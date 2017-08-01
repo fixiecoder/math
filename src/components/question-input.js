@@ -18,6 +18,7 @@ export default class QuestionInput extends React.Component {
       borderRadius: 5,
       border: '4px solid blue',
       justifyContent: 'center',
+      cursor: 'text'
     };
 
     if(this.props.question.get('status') === statusTypes.CORRECT) {

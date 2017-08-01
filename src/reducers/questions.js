@@ -2,6 +2,7 @@ import { Map, List, Range } from 'immutable';
 import * as actionTypes from '../actions/types/questions';
 import * as methods from '../constants/methods';
 import * as difficuty from '../constants/difficulty-types';
+import { PRACTICE } from '../constants/game-types';
 
 const initialState = Map({
   timesTables: Map({
@@ -97,19 +98,19 @@ const initialState = Map({
     }),
   }),
   difficulty: difficuty.EASY,
-  methods: List([methods.MULTIPLY, methods.PLUS, methods.MINUS]),
-  // methods2: Map({ [methods.MULTIPLY]: methods.MULTIPLY }),
+  methods: List([methods.MULTIPLY]),
   practice: Map(),
   challenge: Map(),
   current: Map(),
+  gameType: PRACTICE,
 });
 
 function removeFactor(state, action) {
   let factorList = state.getIn(['timesTables', action.table, 'factors', action.factorType]);
 
-  if(action.factor === undefined) {
-    factorList = Range(0, 11).toList();
-  }
+  // if(action.factor === undefined) {
+  //   factorList = Range(0, 11).toList();
+  // }
 
   if(action.table === 'zero' || !action.table) {
     return state;
@@ -128,6 +129,9 @@ export default function test(state = initialState, action) {
 
     case actionTypes.SET_INCLUDED_TABLE:
       return state.setIn(['timesTables', action.table, 'included'], action.included);
+
+    case actionTypes.RESET_FACTOR:
+      return state.setIn(['timesTables', action.table, 'factors', action.factorType], Range(0, 11).toList());
 
     case actionTypes.REMOVE_FACTOR:
       return removeFactor(state, action)

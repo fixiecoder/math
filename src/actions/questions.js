@@ -16,15 +16,18 @@ import {
   TYPE3
 } from '../constants/question-types';
 import * as difficulties from '../constants/difficulty-types';
+import { PRACTICE } from '../constants/game-types';
 
 export const generateQuestion = (method) => (dispatch, getState) => {
+  const isPractice = getState().getIn(['questions', 'gameType']) === PRACTICE;
   const methods = getState().getIn(['questions', 'methods']);
   let method = methods.get(getRandomNumberBetween(0, methods.size - 1));
   const difficulty = getState().getIn(['questions', 'difficulty']);
 
-  const allTables = getState().getIn(['questions', 'timesTables']);
-  const includedTablesList = allTables.filter(table => table.get('included') === true).toList();
-  const table = includedTablesList.get(getRandomNumberBetween(0, includedTablesList.size - 1))
+  let allTables = getState().getIn(['questions', 'timesTables']);
+  let includedTablesList = allTables.filter(table => table.get('included') === true).toList();
+  const tableIndex = getRandomNumberBetween(0, includedTablesList.size - 1);
+  let table = includedTablesList.get(tableIndex);
 
   let qValue1;
   let qValue2;
@@ -34,6 +37,22 @@ export const generateQuestion = (method) => (dispatch, getState) => {
     addSubractRangeLimit = 100;
   } else if(difficulty === difficulties.HARD) {
     addSubractRangeLimit = 999;
+  }
+
+  let refreshTable = false;
+
+  if(isPractice && table.getIn(['factors', 'qV2']).size === 0) {
+    dispatch({ type: actionTypes.RESET_FACTOR, factorType: 'qV2', table: table.get('key') });
+    refreshTable = true;
+  }
+
+  if(isPractice && table.getIn(['factors', 'qV1']).size === 0) {
+    dispatch({ type: actionTypes.RESET_FACTOR, factorType: 'qV1', table: table.get('key') });
+    refreshTable = true;
+  }
+
+  if(refreshTable === true) {
+    table = getState().getIn(['questions', 'timesTables', table.get('key')]);
   }
 
 
@@ -49,8 +68,6 @@ export const generateQuestion = (method) => (dispatch, getState) => {
 
   dispatch({ type: actionTypes.REMOVE_FACTOR, table: tableMap[qValue1], factor: qValue2, factorType: 'qV2' });
   dispatch({ type: actionTypes.REMOVE_FACTOR, table: tableMap[qValue2], factor: qValue1, factorType: 'qV1'  });
-
-
 
   let answer;
   switch(method) {
@@ -130,6 +147,5 @@ export function setTableIncluded(table, included) {
 }
 
 export function setDifficulty(difficulty) {
-  console.log(difficulty)
   return { type: actionTypes.SET_DIFFICULTY, difficulty };
 }
