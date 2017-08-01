@@ -1,27 +1,29 @@
 import React from 'react';
 import { TYPE1, TYPE2, TYPE3 } from '../constants/question-types';
 import Input from './question-input';
+import TablePicker from '../containers/table-picker';
+import DifficultyPicker from '../containers/difficulty-picker';
 
 const symbolMap = {
   'MULTIPLY': 'x',
   'PLUS': '+',
   'MINUS': '-',
-}
+};
 
 const styles = {
-  input: {
-    width: 40,
-    height: 40,
-    fontSize: 20,
-    margin: 5,
-  },
   symbol: {
-    fontSize: 20,
+    height: '100%',
+    fontSize: 30,
     margin: 5,
+    display: 'flex',
+    // alignItems: 'center',
   },
   value: {
-    fontSize: 20,
+    height: '100%',
+    display: 'flex',
+    fontSize: 30,
     margin: 5,
+    // alignItems: 'center',
   }
 };
 
@@ -53,22 +55,34 @@ export default class Question extends React.Component {
   }
 
   render() {
+
+    const wrapperStyle = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-around'
+    };
+
     const val1 = this.props.question.get('questionType') === TYPE2 ?
-      <Input value={this.state.answer} onChange={this.answerChange} /> :
+      <Input value={this.state.answer} onChange={this.answerChange} question={this.props.question} /> :
       <span style={styles.value} >{this.props.question.get('qValue1')}</span>
 
     const val2 = this.props.question.get('questionType') === TYPE3 ?
-      <Input value={this.state.answer} onChange={this.answerChange} /> :
+      <Input value={this.state.answer} onChange={this.answerChange} question={this.props.question} /> :
       <span style={styles.value} >{this.props.question.get('qValue2')}</span>
 
     const answer = this.props.question.get('questionType') === TYPE1 ?
-      <Input value={this.state.answer} onChange={this.answerChange} /> :
+      <Input value={this.state.answer} onChange={this.answerChange} question={this.props.question} /> :
       <span style={styles.value} >{this.props.question.get('answer')}</span>
 
     return (
       <div>
-        <form onSubmit={(e) => { e.preventDefault(); }}>
-          <div>
+        <DifficultyPicker />
+        <TablePicker />
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          this.props.answerQuestion(this.props.question, this.state.answer);
+        }} style={wrapperStyle}>
+          <div style={{ display: 'flex', alignItems: 'center' }} >
             {val1}
             <span style={styles.symbol}>{symbolMap[this.props.question.get('method')]}</span>
             {val2}
@@ -76,7 +90,6 @@ export default class Question extends React.Component {
             {answer}
           </div>
         </form>
-        <p>{this.props.question.get('status')}</p>
         <button type="button" onClick={() => this.props.answerQuestion(this.props.question, this.state.answer)}>Answer</button>
         <button onClick={this.props.generateQuestion}>Next</button>
       </div>
