@@ -102,7 +102,7 @@ export default class Question extends React.Component {
       <span style={styles.value} >{this.props.question.get('answer')}</span>
     
     return (
-      <div>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
         <form onSubmit={(e) => {
           e.preventDefault();
           if(this.props.question.get('status') === UNANSWERED) {
@@ -150,10 +150,14 @@ export default class Question extends React.Component {
             Next Question
           </button>
         </div>
-        <Stats />
+        <div>{
+            this.props.question.get('status') !== UNANSWERED ?
+              (<span>You answered in {(this.props.question.get('duration') / 1000).toFixed(1)} seconds</span>) : null
+          }</div>
         <div style={exitStyle}>
           <button><Link to="menu">x</Link></button>
         </div>
+        <Stats />
       </div>
     );
   }

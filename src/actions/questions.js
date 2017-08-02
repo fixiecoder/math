@@ -21,8 +21,14 @@ import { PRACTICE } from '../constants/game-types';
 export const generateQuestion = (method) => (dispatch, getState) => {
   const gameType = getState().getIn(['questions', 'gameType']);
   const isPractice = gameType === PRACTICE;
-  const methods = getState().getIn(['questions', 'methods']);
-  let method = methods.get(getRandomNumberBetween(0, methods.size - 1));
+  const methods = getState().getIn(['questions', 'methods']).filter(method => {
+    console.log(method.toJS())
+    return method.get('included') === true;
+  }).toList();
+
+  console.log(methods.toJS())
+  let method = methods.get(getRandomNumberBetween(0, methods.size - 1)).get('method');
+
   const difficulty = getState().getIn(['questions', 'difficulty']);
 
   let allTables = getState().getIn(['questions', 'timesTables']);
@@ -100,6 +106,7 @@ export const generateQuestion = (method) => (dispatch, getState) => {
     qValue2,
     method,
     answer,
+    startTime: Date.now(),
     questionType: difficulty === difficulties.EASY ? TYPE1 : getRandomType(),
     status: statusTypes.UNANSWERED
   });
@@ -139,6 +146,8 @@ export const answerQuestion = (question, answer) => (dispatch, getState) => {
   }
 
   question = question.set('status', status);
+  question = question.set('endTime', Date.now());
+  question = question.set('duration', question.get('endTime') - question.get('startTime'));
 
   dispatch({ type: actionTypes.SET_CURRENT_QUESTION, question });
   

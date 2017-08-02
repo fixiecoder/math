@@ -105,7 +105,16 @@ const initialState = Map({
     }),
   }),
   difficulty: difficuty.EASY,
-  methods: List([methods.MULTIPLY]),
+  methods: Map({
+    [methods.MULTIPLY]: Map({
+      method: methods.MULTIPLY,
+      included: true
+    }),
+    [methods.PLUS]: Map({
+      method: methods.PLUS,
+      included: false
+    })
+  }),
   practice: Map(),
   challenge: Map(),
   current: Map(),

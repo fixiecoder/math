@@ -1,10 +1,17 @@
 import Immutable from 'immutable';
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import reducers from './reducers';
 import thunk from 'redux-thunk';
 import persistMiddleware from './middleware/persist';
 
-const store = createStore(reducers, Immutable.Map(), applyMiddleware(thunk, persistMiddleware));
+
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, Immutable.Map(), composeEnhancers(
+  applyMiddleware(thunk, persistMiddleware)
+));
+
+// const store = createStore(reducers, Immutable.Map(), applyMiddleware(thunk, persistMiddleware));
 
 // const store = createStore(reducers,
 //   applyMiddleware(thunk)
