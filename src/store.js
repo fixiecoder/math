@@ -2,9 +2,9 @@ import Immutable from 'immutable';
 import { createStore, applyMiddleware } from 'redux'
 import reducers from './reducers';
 import thunk from 'redux-thunk';
-// import { composeWithDevTools } from 'redux-devtools-extension';
+import persistMiddleware from './middleware/persist';
 
-const store = createStore(reducers, Immutable.Map(), applyMiddleware(thunk));
+const store = createStore(reducers, Immutable.Map(), applyMiddleware(thunk, persistMiddleware));
 
 // const store = createStore(reducers,
 //   applyMiddleware(thunk)

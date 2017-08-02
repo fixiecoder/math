@@ -1,10 +1,17 @@
-import { Map, List, Range } from 'immutable';
+import { Map, List, Range, fromJS } from 'immutable';
 import * as actionTypes from '../actions/types/questions';
 import * as methods from '../constants/methods';
 import * as difficuty from '../constants/difficulty-types';
-import { PRACTICE } from '../constants/game-types';
+import { PRACTICE, gameTypeMap } from '../constants/game-types';
+
+
+
+const practiceHistory = JSON.parse(localStorage.getItem('practice-history') || []);
+const challengeHistory = JSON.parse(localStorage.getItem('challenge-history') || []);
 
 const initialState = Map({
+  practiceHistory: fromJS(practiceHistory),
+  challengeHistory: fromJS(challengeHistory),
   timesTables: Map({
     'one': Map({
       key: 'one',
@@ -127,6 +134,12 @@ function removeFactor(state, action) {
 export default function test(state = initialState, action) {
   switch(action.type) {
 
+    case actionTypes.RESET_QUESTION_HISTORY:
+      return state.set(gameTypeMap[action.gameType], List());
+      
+    case actionTypes.ADD_QUESTION_TO_HISTORY:
+      return state.updateIn([gameTypeMap[action.gameType]], history => history.push(action.question))
+      
     case actionTypes.SET_INCLUDED_TABLE:
       return state.setIn(['timesTables', action.table, 'included'], action.included);
 

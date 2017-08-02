@@ -1,8 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { TYPE1, TYPE2, TYPE3 } from '../constants/question-types';
+import { UNANSWERED } from '../constants/question-status';
 import Input from './question-input';
-import TablePicker from '../containers/table-picker';
-import DifficultyPicker from '../containers/difficulty-picker';
+import Stats from '../containers/stats';
+
+const exitStyle = {
+  position: 'fixed',
+  top: 0,
+  right: 0,
+}
 
 const symbolMap = {
   'MULTIPLY': 'x',
@@ -16,15 +23,42 @@ const styles = {
     fontSize: 30,
     margin: 5,
     display: 'flex',
-    // alignItems: 'center',
   },
+
   value: {
     height: '100%',
     display: 'flex',
     fontSize: 30,
     margin: 5,
-    // alignItems: 'center',
   }
+};
+
+const buttonsWrapper = {
+  display: 'flex',
+  justifyContent: 'center'
+}
+
+const button = {
+  borderRadius: 5,
+  outline: 'none',
+  height: 50,
+  width: 100,
+  margin: 10,
+  backgroundColor: 'white',
+}
+
+const answerButtonStyle = Object.assign({}, button, {
+  border: '4px solid green',
+})
+
+const nextQuestionButtonStyle = Object.assign({}, button, {
+  border: '4px solid blue',
+})
+
+const wrapperStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-around'
 };
 
 export default class Question extends React.Component {
@@ -55,13 +89,6 @@ export default class Question extends React.Component {
   }
 
   render() {
-
-    const wrapperStyle = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-around'
-    };
-
     const val1 = this.props.question.get('questionType') === TYPE2 ?
       <Input value={this.state.answer} onChange={this.answerChange} question={this.props.question} /> :
       <span style={styles.value} >{this.props.question.get('qValue1')}</span>
@@ -73,14 +100,16 @@ export default class Question extends React.Component {
     const answer = this.props.question.get('questionType') === TYPE1 ?
       <Input value={this.state.answer} onChange={this.answerChange} question={this.props.question} /> :
       <span style={styles.value} >{this.props.question.get('answer')}</span>
-
+    
     return (
       <div>
-        <DifficultyPicker />
-        <TablePicker />
         <form onSubmit={(e) => {
           e.preventDefault();
-          this.props.answerQuestion(this.props.question, this.state.answer);
+          if(this.props.question.get('status') === UNANSWERED) {
+            this.props.answerQuestion(this.props.question, this.state.answer);
+          } else {
+            this.props.generateQuestion();
+          }
         }} style={wrapperStyle}>
           <div style={{ display: 'flex', alignItems: 'center' }} >
             {val1}
@@ -90,8 +119,41 @@ export default class Question extends React.Component {
             {answer}
           </div>
         </form>
-        <button type="button" onClick={() => this.props.answerQuestion(this.props.question, this.state.answer)}>Answer</button>
-        <button onClick={this.props.generateQuestion}>Next</button>
+        <div style={buttonsWrapper}>
+          <button
+            style={
+              this.props.question.get('status') === UNANSWERED ?
+                answerButtonStyle :
+                Object.assign({}, answerButtonStyle, {
+                  border: '4px solid lightgrey',
+                  color: 'lightgrey',
+                })
+            }
+            disabled={this.props.question.get('status') !== UNANSWERED}
+            type="button"
+            onClick={() => this.props.answerQuestion(this.props.question, this.state.answer)}
+          >
+            Check my answer
+          </button>
+          <button
+            style={
+              this.props.question.get('status') !== UNANSWERED ?
+                nextQuestionButtonStyle :
+                Object.assign({}, nextQuestionButtonStyle, {
+                  border: '4px solid lightgrey',
+                  color: 'lightgrey',
+                })
+            }
+            disabled={this.props.question.get('status') === UNANSWERED}
+            onClick={this.props.generateQuestion}
+          >
+            Next Question
+          </button>
+        </div>
+        <Stats />
+        <div style={exitStyle}>
+          <button><Link to="menu">x</Link></button>
+        </div>
       </div>
     );
   }

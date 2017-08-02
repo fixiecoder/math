@@ -16,7 +16,7 @@ ReactDOM.render((
       <Route path="/" component={App}>
         <IndexRedirect to="/menu" />
         <Route path="menu" component={Menu} />
-        <Route path="question" component={Question} />
+        <Route path="practice" component={Question} />
       </Route>
     </Router>
     </Provider>

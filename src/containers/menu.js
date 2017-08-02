@@ -3,7 +3,7 @@ import Menu from '../components/menu'
 
 const mapStateToProps = state => {
   return {
-    name: state.getIn(['test', 'name'])
+
   };
 }
 

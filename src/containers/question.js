@@ -2,12 +2,12 @@ import { connect } from 'react-redux'
 import Question from '../components/question'
 import {
   generateQuestion,
-  answerQuestion
-} from '../actions/questions'
+  answerQuestion,
+} from '../actions/questions';
 
 const mapStateToProps = state => {
   return {
-    question: state.getIn(['questions', 'current'])
+    question: state.getIn(['questions', 'current']),
   };
 }
 

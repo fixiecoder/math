@@ -19,7 +19,8 @@ import * as difficulties from '../constants/difficulty-types';
 import { PRACTICE } from '../constants/game-types';
 
 export const generateQuestion = (method) => (dispatch, getState) => {
-  const isPractice = getState().getIn(['questions', 'gameType']) === PRACTICE;
+  const gameType = getState().getIn(['questions', 'gameType']);
+  const isPractice = gameType === PRACTICE;
   const methods = getState().getIn(['questions', 'methods']);
   let method = methods.get(getRandomNumberBetween(0, methods.size - 1));
   const difficulty = getState().getIn(['questions', 'difficulty']);
@@ -140,6 +141,9 @@ export const answerQuestion = (question, answer) => (dispatch, getState) => {
   question = question.set('status', status);
 
   dispatch({ type: actionTypes.SET_CURRENT_QUESTION, question });
+  
+  const gameType = getState().getIn(['questions', 'gameType']);
+  dispatch({ type: actionTypes.ADD_QUESTION_TO_HISTORY, question, gameType });
 };
 
 export function setTableIncluded(table, included) {
@@ -148,4 +152,8 @@ export function setTableIncluded(table, included) {
 
 export function setDifficulty(difficulty) {
   return { type: actionTypes.SET_DIFFICULTY, difficulty };
+}
+
+export function resetQuestionHistoryByType(gameType) {
+  return { type: actionTypes.RESET_QUESTION_HISTORY, gameType };
 }
