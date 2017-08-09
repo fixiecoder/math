@@ -11,3 +11,10 @@ export const methodsList = [
   MINUS,
   ALL
 ];
+
+export const methodSymbols = {
+  MULTIPLY: 'x',
+  DIVIDE: '/',
+  PLUS: '+',
+  MINUS: '-',
+}

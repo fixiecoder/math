@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
+import Toolbar from '../containers/toolbar';
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <div className="toolbar">
-          <button onClick={this.props.logout}>Log out</button>
-        </div>
+      <div className="app-wrapper">
+        <Toolbar />
         {this.props.children}
       </div>
     );

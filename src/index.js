@@ -36,6 +36,7 @@ ReactDOM.render((
           <IndexRedirect to="Menu" />
           <Route path="menu" component={Menu} />
           <Route path="practice" component={Question} />
+          <Route path="challenage" component={Question} />
         </Route>
       </Route>
     </Router>

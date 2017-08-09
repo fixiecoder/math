@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import Login from '../components/login'
 import { attemptLogin } from '../actions/auth'
+import { setCurrentPage } from '../actions/app'
 
 const mapStateToProps = state => {
   return {
@@ -10,7 +11,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    attemptLogin: (username, password) => dispatch(attemptLogin(username, password))
+    attemptLogin: (username, password) => dispatch(attemptLogin(username, password)),
+    setCurrentPage: (page) => dispatch(setCurrentPage(page)),
   };
 }
 

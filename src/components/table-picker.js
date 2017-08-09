@@ -11,15 +11,18 @@ export default function TablePicker(props) {
         <div key={table.get('key')} className="table-picker-table-wrapper">
           <label className="table-picker-table-label">
             <span className="table-picker-table-label-text">{table.get('value')}</span>
-            <img className="table-picker-table-label-input" src={table.get('included') ? checkboxCheckedImageSrc : checkboxUncheckedImageSrc} />
+            <img alt="" className="table-picker-table-label-input" src={table.get('included') ? checkboxCheckedImageSrc : checkboxUncheckedImageSrc} />
             <input hidden={true} type='checkbox' checked={table.get('included')} onChange={(e) => props.setTableIncluded(table.get('key'), e.target.checked) }/>
           </label>
         </div>
       );
     });
-
+  const style = {
+    height: props.methods.getIn(['MULTIPLY', 'included']) ? 200 : 0
+  };
   return (
-    <div className="table-picker-wrapper">
+    <div className="table-picker-wrapper" style={style}>
+      <h2>Which tables do you want to include?</h2>
       <div className="table-picker-inner">
         {tables}
       </div>

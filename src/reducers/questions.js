@@ -146,6 +146,9 @@ export default function test(state = initialState, action) {
       
     case actionTypes.SET_INCLUDED_TABLE:
       return state.setIn(['timesTables', action.table, 'included'], action.included);
+      
+    case actionTypes.SET_INCLUDED_METHOD:
+      return state.setIn(['methods', action.method, 'included'], action.included);
 
     case actionTypes.RESET_FACTOR:
       return state.setIn(['timesTables', action.table, 'factors', action.factorType], Range(0, 11).toList());

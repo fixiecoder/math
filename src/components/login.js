@@ -1,5 +1,5 @@
 import React from 'react';
-import titleImage from '../assets/title.svg';
+import titleImage from '../assets/title_blue.svg';
 
 
 const titleStyle = {
@@ -57,7 +57,7 @@ export default class Login extends React.PureComponent {
   render() {
     return (
       <div style={loginWrapperStyle}>
-        <img style={titleStyle} src={titleImage} />
+        <img alt="" style={titleStyle} src={titleImage} />
         <form style={loginFormStyle} onSubmit={this.submitLogin}>
           <input
             style={loginInputStyle}

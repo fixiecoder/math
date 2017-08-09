@@ -4,9 +4,16 @@ import * as difficulties from '../constants/difficulty-types';
 export default function DifficultyPicker(props) {
 
   const wrapper = {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'center'
+  }
+
+  const inner = {
     margin: 20,
     display: 'flex',
-    width: 300
+    width: 300,
+    justifyContent: 'center'
   }
 
   const selected = {
@@ -20,8 +27,6 @@ export default function DifficultyPicker(props) {
     justifyContent: 'center',
     cursor: 'pointer',
     height: 40
-    // width: 60,
-    // display: 'inline-block'
   };
 
   const unselected = Object.assign({}, selected, {
@@ -30,36 +35,38 @@ export default function DifficultyPicker(props) {
 
   return (
     <div style={wrapper}>
-      <label style={props.difficulty === difficulties.EASY ? selected : unselected}>
-        <span>EASY</span>
-        <input
-          hidden={true}
-          type="radio"
-          name="difficulty"
-          onChange={() => props.setDifficulty(difficulties.EASY)}
-          checked={props.difficulty === difficulties.EASY}
-        />
-      </label>
-      <label style={props.difficulty === difficulties.MEDIUM ? selected : unselected}>
-        <span>MEDIUM</span>
-        <input
-          hidden={true}
-          type="radio"
-          name="difficulty"
-          onChange={() => props.setDifficulty(difficulties.MEDIUM)}
-          checked={props.difficulty === difficulties.MEDIUM}
-        />
-      </label>
-      <label style={props.difficulty === difficulties.HARD ? selected : unselected}>
-        <span>HARD</span>
-        <input
-          hidden={true}
-          type="radio"
-          name="difficulty"
-          onChange={() => props.setDifficulty(difficulties.HARD)}
-          checked={props.difficulty === difficulties.HARD}
-        />
-      </label>
+      <div style={inner}>
+        <label style={props.difficulty === difficulties.EASY ? selected : unselected}>
+          <span>EASY</span>
+          <input
+            hidden={true}
+            type="radio"
+            name="difficulty"
+            onChange={() => props.setDifficulty(difficulties.EASY)}
+            checked={props.difficulty === difficulties.EASY}
+          />
+        </label>
+        <label style={props.difficulty === difficulties.MEDIUM ? selected : unselected}>
+          <span>MEDIUM</span>
+          <input
+            hidden={true}
+            type="radio"
+            name="difficulty"
+            onChange={() => props.setDifficulty(difficulties.MEDIUM)}
+            checked={props.difficulty === difficulties.MEDIUM}
+          />
+        </label>
+        <label style={props.difficulty === difficulties.HARD ? selected : unselected}>
+          <span>HARD</span>
+          <input
+            hidden={true}
+            type="radio"
+            name="difficulty"
+            onChange={() => props.setDifficulty(difficulties.HARD)}
+            checked={props.difficulty === difficulties.HARD}
+          />
+        </label>
+      </div>
     </div>
   );
 }

@@ -1,15 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router';
 import { TYPE1, TYPE2, TYPE3 } from '../constants/question-types';
-import { UNANSWERED } from '../constants/question-status';
+import { UNANSWERED, CORRECT } from '../constants/question-status';
 import Input from './question-input';
 import Stats from '../containers/stats';
-
-const exitStyle = {
-  position: 'fixed',
-  top: 0,
-  right: 0,
-}
+import { QUESTION } from '../constants/pages';
 
 const symbolMap = {
   'MULTIPLY': 'x',
@@ -61,6 +55,18 @@ const wrapperStyle = {
   justifyContent: 'space-around'
 };
 
+const messageStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  height: 40
+};
+
+const speedStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  height: 40
+}
+
 export default class Question extends React.Component {
   constructor(props) {
     super(props);
@@ -72,6 +78,7 @@ export default class Question extends React.Component {
 
   componentDidMount() {
     this.props.generateQuestion();
+    this.props.setCurrentPage(QUESTION);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -89,6 +96,7 @@ export default class Question extends React.Component {
   }
 
   render() {
+    const result = this.props.question.get('status') === CORRECT ? 'correctly' : 'incorrectly';
     const val1 = this.props.question.get('questionType') === TYPE2 ?
       <Input value={this.state.answer} onChange={this.answerChange} question={this.props.question} /> :
       <span style={styles.value} >{this.props.question.get('qValue1')}</span>
@@ -100,7 +108,7 @@ export default class Question extends React.Component {
     const answer = this.props.question.get('questionType') === TYPE1 ?
       <Input value={this.state.answer} onChange={this.answerChange} question={this.props.question} /> :
       <span style={styles.value} >{this.props.question.get('answer')}</span>
-    
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <form onSubmit={(e) => {
@@ -119,6 +127,9 @@ export default class Question extends React.Component {
             {answer}
           </div>
         </form>
+        <div style={messageStyle}>
+          <p>{this.props.question.get('message')}</p>
+        </div>
         <div style={buttonsWrapper}>
           <button
             style={
@@ -150,13 +161,10 @@ export default class Question extends React.Component {
             Next Question
           </button>
         </div>
-        <div>{
+        <div style={speedStyle}>{
             this.props.question.get('status') !== UNANSWERED ?
-              (<span>You answered in {(this.props.question.get('duration') / 1000).toFixed(1)} seconds  </span>) : null
+              (<span>You answered in {result} {(this.props.question.get('duration') / 1000).toFixed(1)} seconds  </span>) : null
           }</div>
-        <div style={exitStyle}>
-          <button><Link to="menu">x</Link></button>
-        </div>
         <Stats />
       </div>
     );

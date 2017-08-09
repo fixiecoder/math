@@ -1,6 +1,10 @@
 import uuid from 'uuid';
 import { Map } from 'immutable';
-import { getRandomNumberBetween, getRandomType } from '../libs/helpers';
+import {
+  getRandomNumberBetween,
+  getRandomCorrectMessage,
+  getRandomIncorrectMessage
+} from '../libs/helpers';
 import * as actionTypes from './types/questions';
 import {
   MULTIPLY,
@@ -22,11 +26,9 @@ export const generateQuestion = (method) => (dispatch, getState) => {
   const gameType = getState().getIn(['questions', 'gameType']);
   const isPractice = gameType === PRACTICE;
   const methods = getState().getIn(['questions', 'methods']).filter(method => {
-    console.log(method.toJS())
     return method.get('included') === true;
   }).toList();
 
-  console.log(methods.toJS())
   let method = methods.get(getRandomNumberBetween(0, methods.size - 1)).get('method');
 
   const difficulty = getState().getIn(['questions', 'difficulty']);
@@ -62,12 +64,15 @@ export const generateQuestion = (method) => (dispatch, getState) => {
     table = getState().getIn(['questions', 'timesTables', table.get('key')]);
   }
 
+  let customType;
 
   if(Math.random() > 0.5) {
+    customType = [TYPE1, TYPE3][getRandomNumberBetween(0, 1)];
     const val2Index = getRandomNumberBetween(0, table.getIn(['factors', 'qV2']).size - 1);
     qValue1 = method === MULTIPLY ? table.get('value') : getRandomNumberBetween(0, addSubractRangeLimit);
     qValue2 = method === MULTIPLY ? table.getIn(['factors', 'qV2', val2Index]) : getRandomNumberBetween(0, addSubractRangeLimit);
   } else {
+    customType = [TYPE1, TYPE2][getRandomNumberBetween(0, 1)];
     const val1Index = getRandomNumberBetween(0, table.getIn(['factors', 'qV1']).size - 1);
     qValue1 = method === MULTIPLY ? table.getIn(['factors', 'qV1', val1Index]) : getRandomNumberBetween(0, addSubractRangeLimit);
     qValue2 = method === MULTIPLY ? table.get('value') : getRandomNumberBetween(0, addSubractRangeLimit);
@@ -107,7 +112,7 @@ export const generateQuestion = (method) => (dispatch, getState) => {
     method,
     answer,
     startTime: Date.now(),
-    questionType: difficulty === difficulties.EASY ? TYPE1 : getRandomType(),
+    questionType: difficulty === difficulties.EASY ? TYPE1 : customType,
     status: statusTypes.UNANSWERED
   });
 
@@ -145,9 +150,12 @@ export const answerQuestion = (question, answer) => (dispatch, getState) => {
 
   }
 
+  const message = status === statusTypes.CORRECT ?
+    getRandomCorrectMessage() : getRandomIncorrectMessage();
   question = question.set('status', status);
   question = question.set('endTime', Date.now());
   question = question.set('duration', question.get('endTime') - question.get('startTime'));
+  question = question.set('message', message);
 
   dispatch({ type: actionTypes.SET_CURRENT_QUESTION, question });
   
@@ -157,6 +165,10 @@ export const answerQuestion = (question, answer) => (dispatch, getState) => {
 
 export function setTableIncluded(table, included) {
   return { type: actionTypes.SET_INCLUDED_TABLE, table, included };
+}
+
+export function setMethodIncluded(method, included) {
+  return { type: actionTypes.SET_INCLUDED_METHOD, method, included };
 }
 
 export function setDifficulty(difficulty) {

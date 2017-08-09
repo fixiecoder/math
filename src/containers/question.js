@@ -1,3 +1,4 @@
+import { setCurrentPage } from '../actions/app'
 import { connect } from 'react-redux'
 import Question from '../components/question'
 import {
@@ -15,6 +16,7 @@ const mapDispatchToProps = dispatch => {
   return {
     generateQuestion: () => dispatch(generateQuestion()),
     answerQuestion: (question, answer) => dispatch(answerQuestion(question, answer)),
+    setCurrentPage: (page) => dispatch(setCurrentPage(page)),
   };
 }
 
