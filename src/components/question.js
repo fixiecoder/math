@@ -152,7 +152,7 @@ export default class Question extends React.Component {
         </div>
         <div>{
             this.props.question.get('status') !== UNANSWERED ?
-              (<span>You answered in {(this.props.question.get('duration') / 1000).toFixed(1)} seconds</span>) : null
+              (<span>You answered in {(this.props.question.get('duration') / 1000).toFixed(1)} seconds  </span>) : null
           }</div>
         <div style={exitStyle}>
           <button><Link to="menu">x</Link></button>

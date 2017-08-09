@@ -1,17 +1,12 @@
-import { Map, List, Range, fromJS } from 'immutable';
+import { Map, List, Range } from 'immutable';
 import * as actionTypes from '../actions/types/questions';
 import * as methods from '../constants/methods';
 import * as difficuty from '../constants/difficulty-types';
 import { PRACTICE, gameTypeMap } from '../constants/game-types';
 
-
-
-const practiceHistory = JSON.parse(localStorage.getItem('practice-history') || []);
-const challengeHistory = JSON.parse(localStorage.getItem('challenge-history') || []);
-
 const initialState = Map({
-  practiceHistory: fromJS(practiceHistory),
-  challengeHistory: fromJS(challengeHistory),
+  practiceHistory: List(),
+  challengeHistory: List(),
   timesTables: Map({
     'one': Map({
       key: 'one',

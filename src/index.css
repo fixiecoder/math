@@ -1,5 +1,61 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+}
+
+.login-button {
+  outline: none;
+  border-radius: 6px;
+  background-color: mistyrose;
+  border: 2px solid pink;
+  height: 40px;
+  width: 60%;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  border: 2px solid mistyrose;
+  background-color: pink;
+  color: white;
+}
+
+.table-picker-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.table-picker-inner {
+  display: flex;
+  justify-content: center;
+  width: 500px;
+}
+
+.table-picker-table-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*border: 1px solid #eee;*/
+}
+
+.table-picker-table-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.table-picker-table-label-text {
+  font-size: 2em;
+  color: green;
+}
+
+.table-picker-table-label-input {
+  width: 64px;
+  cursor: pointer;
 }

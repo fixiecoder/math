@@ -8,7 +8,7 @@ export default function Menu(props) {
     <div>
       <DifficultyPicker />
       <TablePicker />
-      <Link to="/practice">Practice</Link>
+      <Link to="/app/practice">Practice</Link>
     </div>
   );
 }

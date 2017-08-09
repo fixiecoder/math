@@ -4,10 +4,16 @@ import reducers from './reducers';
 import thunk from 'redux-thunk';
 import persistMiddleware from './middleware/persist';
 
+let state = localStorage.getItem('state');
 
+if(state) {
+  state = Immutable.fromJS(JSON.parse(state));
+} else {
+  state = Immutable.Map();
+}
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, Immutable.Map(), composeEnhancers(
+const store = createStore(reducers, state, composeEnhancers(
   applyMiddleware(thunk, persistMiddleware)
 ));
 
