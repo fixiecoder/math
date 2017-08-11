@@ -9,6 +9,7 @@ import {
 const mapStateToProps = state => {
   return {
     question: state.getIn(['questions', 'current']),
+    gameType: state.getIn(['questions', 'gameType'])
   };
 }
 

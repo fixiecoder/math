@@ -8,6 +8,8 @@ import { Router, Route, browserHistory, IndexRedirect } from 'react-router'
 import Question from './containers/question';
 import Login from './containers/login';
 import Menu from './containers/menu';
+import Practices from './containers/practices';
+import Challenges from './containers/challenges';
 import store from './store';
 
 function requireNoAuth(mextState, replace, callback) {
@@ -35,8 +37,9 @@ ReactDOM.render((
         <Route path="app" component={App} onEnter={requireAuth}>
           <IndexRedirect to="Menu" />
           <Route path="menu" component={Menu} />
-          <Route path="practice" component={Question} />
-          <Route path="challenage" component={Question} />
+          <Route path="practice" component={Practices} />
+          <Route path="challenge" component={Challenges} />
+          <Route path="questions" component={Question} />
         </Route>
       </Route>
     </Router>

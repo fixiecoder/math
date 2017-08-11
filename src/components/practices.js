@@ -3,11 +3,11 @@ import { Link } from 'react-router';
 import TablePicker from '../containers/table-picker';
 import DifficultyPicker from '../containers/difficulty-picker';
 import MethodPicker from '../containers/method-picker';
-import { MENU } from '../constants/pages';
+import { PRACTICE_MENU } from '../constants/pages';
 
-export default class Menu extends React.PureComponent { 
+export default class Practices extends React.PureComponent {
   componentDidMount() {
-    this.props.setCurrentPage(MENU);
+    this.props.setCurrentPage(PRACTICE_MENU);
   }
 
   render() {
@@ -16,12 +16,14 @@ export default class Menu extends React.PureComponent {
     );
 
     const disabledClass = disable ? 'disabled' : '';
-
     return (
       <div>
+       <h2>Choose what you want to practice</h2>
+       <DifficultyPicker />
+        <MethodPicker />
+        <TablePicker />
         <div className="menu-play-buttons">
-          <Link className={`menu-play-button ${disabledClass}`} to="/app/practice">Practice</Link>
-          <Link className={`menu-play-button ${disabledClass}`} to="/app/challenge">Challenge</Link>
+          <Link className={`menu-play-button ${disabledClass}`} to="/app/questions">Go</Link>
         </div>
       </div>
     );

@@ -110,6 +110,11 @@ const initialState = Map({
       included: false
     })
   }),
+  challenge: Map({
+    questionCount: 10,
+    currentQuestion: 0,
+    questions: List(),
+  }),
   practice: Map(),
   challenge: Map(),
   current: Map(),
@@ -142,7 +147,10 @@ export default function test(state = initialState, action) {
       return state.set(gameTypeMap[action.gameType], List());
       
     case actionTypes.ADD_QUESTION_TO_HISTORY:
-      return state.updateIn([gameTypeMap[action.gameType]], history => history.push(action.question))
+      return state.updateIn([gameTypeMap[action.gameType]], questions => questions.push(action.question))
+           
+    case actionTypes.ADD_QUESTION_TO_CHALLENGE:
+      return state.updateIn(['callenge', 'questions'], history => history.push(action.question))
       
     case actionTypes.SET_INCLUDED_TABLE:
       return state.setIn(['timesTables', action.table, 'included'], action.included);

@@ -20,7 +20,7 @@ import {
   TYPE3
 } from '../constants/question-types';
 import * as difficulties from '../constants/difficulty-types';
-import { PRACTICE } from '../constants/game-types';
+import { PRACTICE, CHALLENGE } from '../constants/game-types';
 
 export const generateQuestion = (method) => (dispatch, getState) => {
   const gameType = getState().getIn(['questions', 'gameType']);
@@ -37,6 +37,10 @@ export const generateQuestion = (method) => (dispatch, getState) => {
   let includedTablesList = allTables.filter(table => table.get('included') === true).toList();
   const tableIndex = getRandomNumberBetween(0, includedTablesList.size - 1);
   let table = includedTablesList.get(tableIndex);
+
+  console.log(table)
+  console.log(includedTablesList)
+  console.log(tableIndex)
 
   let qValue1;
   let qValue2;
@@ -113,7 +117,7 @@ export const generateQuestion = (method) => (dispatch, getState) => {
     answer,
     startTime: Date.now(),
     questionType: difficulty === difficulties.EASY ? TYPE1 : customType,
-    status: statusTypes.UNANSWERED
+    status: statusTypes.UNANSWERED,
   });
 
   dispatch({ type: actionTypes.SET_CURRENT_QUESTION, question });
@@ -127,9 +131,18 @@ export const checkAnswer = (question, answer) => dispatch => {
 
 };
 
+export const endChallenge = () => (dispatch, getState) => {
+  // upload challenge to server
+  // save challenge to challengeHistory
+  // show challenge result screen
+  // reset challenge in state
+}
+
 export const answerQuestion = (question, answer) => (dispatch, getState) => {
   let status;
   answer = Number(answer);
+  const currentQuestion = getState().getIn(['questions', 'challenge', 'currentQuestion']);
+  const questionCount = getState().getIn(['questions', 'challenge', 'currentQuestion']);
 
   switch(question.get('questionType')) {
     case TYPE1:
@@ -160,7 +173,16 @@ export const answerQuestion = (question, answer) => (dispatch, getState) => {
   dispatch({ type: actionTypes.SET_CURRENT_QUESTION, question });
   
   const gameType = getState().getIn(['questions', 'gameType']);
-  dispatch({ type: actionTypes.ADD_QUESTION_TO_HISTORY, question, gameType });
+
+  if(gameType === CHALLENGE) {
+    dispatch({ type: actionTypes.ADD_QUESTION_TO_CHALLENGE, question, gameType });
+    if(currentQuestion === questionCount) {
+      dispatch(endChallenge())
+    }
+  } else {
+    dispatch({ type: actionTypes.ADD_QUESTION_TO_HISTORY, question, gameType });
+  }
+
 };
 
 export function setTableIncluded(table, included) {

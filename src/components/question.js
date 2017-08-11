@@ -3,7 +3,8 @@ import { TYPE1, TYPE2, TYPE3 } from '../constants/question-types';
 import { UNANSWERED, CORRECT } from '../constants/question-status';
 import Input from './question-input';
 import Stats from '../containers/stats';
-import { QUESTION } from '../constants/pages';
+import { QUESTION, PRACTICE_QUESTION, CHALLENGE_QUESTION } from '../constants/pages';
+import { PRACTICE, CHALLENGE } from '../constants/game-types';
 
 const symbolMap = {
   'MULTIPLY': 'x',
@@ -78,7 +79,8 @@ export default class Question extends React.Component {
 
   componentDidMount() {
     this.props.generateQuestion();
-    this.props.setCurrentPage(QUESTION);
+    const screen = this.props.gameType === PRACTICE ? PRACTICE_QUESTION : CHALLENGE_QUESTION;
+    this.props.setCurrentPage(screen);
   }
 
   componentDidUpdate(prevProps, prevState) {

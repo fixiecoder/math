@@ -12,31 +12,34 @@ export default function DifficultyPicker(props) {
   const inner = {
     margin: 20,
     display: 'flex',
-    width: 300,
+    width: 400,
     justifyContent: 'center'
   }
 
-  const selected = {
+  const button = {
     flex: 1,
-    border: '3px solid blue',
     margin: 10,
     padding: 5,
-    borderRadius: 5,
+    borderRadius: 10,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
-    height: 40
-  };
+    height: 60
+  }
 
-  const unselected = Object.assign({}, selected, {
-    border: '3px solid green'
+  const selected = Object.assign({}, button, {
+    border: '10px solid RGB(0, 146, 69)'
+  });
+
+  const unselected = Object.assign({}, button, {
+    border: '10px solid RGB(0, 113, 188)'
   });
 
   return (
     <div style={wrapper}>
       <div style={inner}>
-        <label style={props.difficulty === difficulties.EASY ? selected : unselected}>
+        <label style={props.difficulty === difficulties.EASY ? selected : unselected} className="difficulty-button">
           <span>EASY</span>
           <input
             hidden={true}
@@ -46,7 +49,7 @@ export default function DifficultyPicker(props) {
             checked={props.difficulty === difficulties.EASY}
           />
         </label>
-        <label style={props.difficulty === difficulties.MEDIUM ? selected : unselected}>
+        <label style={props.difficulty === difficulties.MEDIUM ? selected : unselected} className="difficulty-button">
           <span>MEDIUM</span>
           <input
             hidden={true}
@@ -56,7 +59,7 @@ export default function DifficultyPicker(props) {
             checked={props.difficulty === difficulties.MEDIUM}
           />
         </label>
-        <label style={props.difficulty === difficulties.HARD ? selected : unselected}>
+        <label style={props.difficulty === difficulties.HARD ? selected : unselected} className="difficulty-button">
           <span>HARD</span>
           <input
             hidden={true}
