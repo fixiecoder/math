@@ -4,19 +4,22 @@ import {
   setDifficulty,
 } from '../actions/questions'
 import { setCurrentPage } from '../actions/app';
+import { initChallenge } from '../actions/challenges';
 
 
 
 const mapStateToProps = state => {
   return {
-    difficulty: state.getIn(['questions', 'difficulty'])
+    difficulty: state.getIn(['questions', 'difficulty']),
+    challenges: state.get('challenges')
   };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    setDifficulty: (difficulty) => dispatch(setDifficulty(difficulty)),
-    setCurrentPage: (page) => dispatch(setCurrentPage(page)),
+    setDifficulty: difficulty => dispatch(setDifficulty(difficulty)),
+    setCurrentPage: page => dispatch(setCurrentPage(page)),
+    initChallenge: challengeId => dispatch(initChallenge(challengeId)),
   };
 }
 

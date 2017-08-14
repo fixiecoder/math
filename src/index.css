@@ -161,8 +161,9 @@ body {
   align-items: center;
 }
 
-.challenges-row {
+.challenges-inner {
   display: flex;
+  flex-wrap: wrap;
   width: 600px;
 }
 

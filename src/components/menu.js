@@ -1,8 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import TablePicker from '../containers/table-picker';
-import DifficultyPicker from '../containers/difficulty-picker';
-import MethodPicker from '../containers/method-picker';
 import { MENU } from '../constants/pages';
 
 export default class Menu extends React.PureComponent { 

@@ -4,6 +4,7 @@ import {
   setDifficulty,
 } from '../actions/questions'
 import { setCurrentPage } from '../actions/app';
+import { initPractice } from '../actions/practice';
 
 const mapStateToProps = state => {
   return {
@@ -16,6 +17,7 @@ const mapDispatchToProps = dispatch => {
   return {
     setDifficulty: (difficulty) => dispatch(setDifficulty(difficulty)),
     setCurrentPage: (page) => dispatch(setCurrentPage(page)),
+    initPractice: (difficulty, methods, tables) => dispatch(initPractice(difficulty, methods, tables)),
   };
 }
 

@@ -8,28 +8,27 @@ export default class Challenges extends React.PureComponent {
   }
 
   render() {
+
+    const challenges = this.props.challenges.toList().map(challenge => {
+      return (
+        <div
+          key={challenge.get('id')}
+          className="challenges-item"
+          onClick={() =>this.props.initChallenge(challenge.get('id'))}
+        >
+          <span>{challenge.get('name')}</span>
+        </div>
+      );
+    });
+
+
     return (
       <div>
        <h2>Challenges</h2>
        <DifficultyPicker />
        <div className="challenges-wrapper">
-          <div className="challenges-row">
-            <div className="challenges-item"><span>Two Times Table</span></div>
-            <div className="challenges-item"><span>Three Times Table</span></div>
-            <div className="challenges-item"><span>Four Times Table</span></div>
-            <div className="challenges-item"><span>Five Times Table</span></div>
-          </div>
-          <div className="challenges-row">
-            <div className="challenges-item"><span>Six Times Table</span></div>
-            <div className="challenges-item"><span>Seven Times Table</span></div>
-            <div className="challenges-item"><span>Eight Times Table</span></div>
-            <div className="challenges-item"><span>Nine Times Table</span></div>
-          </div>
-          <div className="challenges-row">
-            <div className="challenges-item"><span>Ten Times Table</span></div>
-            <div className="challenges-item"><span>Odd Table</span></div>
-            <div className="challenges-item"><span>Even Table</span></div>
-            <div className="challenges-item"><span>All Table</span></div>
+          <div className="challenges-inner">
+            {challenges}
           </div>
         </div>
       </div>

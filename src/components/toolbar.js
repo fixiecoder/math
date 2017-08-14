@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import titleWhiteImage from '../assets/title_white.svg';
 import {
-  QUESTION,
   PRACTICE_MENU,
   CHALLENGE_MENU,
   PRACTICE_QUESTION,
@@ -38,6 +37,9 @@ export default function Toolbar(props) {
         </div>
       );
       break;
+
+    default:
+      questionMenuItems = undefined;
   }
 
   return (

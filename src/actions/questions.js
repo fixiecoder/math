@@ -19,28 +19,28 @@ import {
   TYPE2,
   TYPE3
 } from '../constants/question-types';
+import { REMOVE_PRACTICE_FACTOR } from './types/practice';
+import { REMOVE_CHALLENGE_FACTOR } from './types/challenges';
 import * as difficulties from '../constants/difficulty-types';
 import { PRACTICE, CHALLENGE } from '../constants/game-types';
 
 export const generateQuestion = (method) => (dispatch, getState) => {
   const gameType = getState().getIn(['questions', 'gameType']);
   const isPractice = gameType === PRACTICE;
-  const methods = getState().getIn(['questions', 'methods']).filter(method => {
-    return method.get('included') === true;
-  }).toList();
+  const reducer = isPractice === true ? 'practice' : 'challenges';
 
+  console.log(reducer)
+  const methods = getState().getIn([reducer, 'methods']).toList();
   let method = methods.get(getRandomNumberBetween(0, methods.size - 1)).get('method');
+  const difficulty = getState().getIn([reducer, 'difficulty']);
+  let includedTablesList = getState().getIn([reducer, 'includedTables']).toList();
 
-  const difficulty = getState().getIn(['questions', 'difficulty']);
+  if(gameType === CHALLENGE) {
+    includedTablesList = getState().getIn(['questions', 'challenge', 'includedTables']);
+  }
 
-  let allTables = getState().getIn(['questions', 'timesTables']);
-  let includedTablesList = allTables.filter(table => table.get('included') === true).toList();
   const tableIndex = getRandomNumberBetween(0, includedTablesList.size - 1);
   let table = includedTablesList.get(tableIndex);
-
-  console.log(table)
-  console.log(includedTablesList)
-  console.log(tableIndex)
 
   let qValue1;
   let qValue2;
@@ -82,8 +82,9 @@ export const generateQuestion = (method) => (dispatch, getState) => {
     qValue2 = method === MULTIPLY ? table.get('value') : getRandomNumberBetween(0, addSubractRangeLimit);
   }
 
-  dispatch({ type: actionTypes.REMOVE_FACTOR, table: tableMap[qValue1], factor: qValue2, factorType: 'qV2' });
-  dispatch({ type: actionTypes.REMOVE_FACTOR, table: tableMap[qValue2], factor: qValue1, factorType: 'qV1'  });
+  const removeFactorActionType = isPractice  === true ? REMOVE_PRACTICE_FACTOR : REMOVE_CHALLENGE_FACTOR;
+  dispatch({ type: removeFactorActionType, table: tableMap[qValue1], factor: qValue2, factorType: 'qV2' });
+  // dispatch({ type: removeFactorActionType, table: tableMap[qValue2], factor: qValue1, factorType: 'qV1'  });
 
   let answer;
   switch(method) {
@@ -135,7 +136,8 @@ export const endChallenge = () => (dispatch, getState) => {
   // upload challenge to server
   // save challenge to challengeHistory
   // show challenge result screen
-  // reset challenge in state
+  // set awards in challenges if any
+  // reset currentChallenge in state
 }
 
 export const answerQuestion = (question, answer) => (dispatch, getState) => {
@@ -199,4 +201,12 @@ export function setDifficulty(difficulty) {
 
 export function resetQuestionHistoryByType(gameType) {
   return { type: actionTypes.RESET_QUESTION_HISTORY, gameType };
+}
+
+export const setCurrentChallenge = (currentChallenge) => (dispatch, getState) => {
+  dispatch({ type: actionTypes.SET_CURRENT_CHALLENGE, currentChallenge });
+}
+
+export const setGameType = (gameType) => (dispatch, getState) => {
+  dispatch({ type: actionTypes.SET_GAME_TYPE, gameType });
 }

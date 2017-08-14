@@ -6,7 +6,7 @@ import {
 
 const mapStateToProps = state => {
   return {
-    tables: state.getIn(['questions', 'timesTables']),
+    // tables: state.getIn(['questions', 'timesTables']),
     methods: state.getIn(['questions', 'methods'])
   };
 }

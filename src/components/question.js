@@ -3,8 +3,8 @@ import { TYPE1, TYPE2, TYPE3 } from '../constants/question-types';
 import { UNANSWERED, CORRECT } from '../constants/question-status';
 import Input from './question-input';
 import Stats from '../containers/stats';
-import { QUESTION, PRACTICE_QUESTION, CHALLENGE_QUESTION } from '../constants/pages';
-import { PRACTICE, CHALLENGE } from '../constants/game-types';
+import { PRACTICE_QUESTION, CHALLENGE_QUESTION } from '../constants/pages';
+import { PRACTICE } from '../constants/game-types';
 
 const symbolMap = {
   'MULTIPLY': 'x',
@@ -15,7 +15,7 @@ const symbolMap = {
 const styles = {
   symbol: {
     height: '100%',
-    fontSize: 30,
+    fontSize: 60,
     margin: 5,
     display: 'flex',
   },
@@ -23,7 +23,7 @@ const styles = {
   value: {
     height: '100%',
     display: 'flex',
-    fontSize: 30,
+    fontSize: 60,
     margin: 5,
   }
 };

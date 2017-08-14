@@ -8,17 +8,34 @@ export default class QuestionInput extends React.Component {
 
   render() {
     const inputStyle = {
-      padding: 5,
+      fontSize: 50,
+      minWidth: 60,
+      width: '100%',
+      color: 'black',
+      outline: 'none',
+      border: '4px solid blue',
+      height: '100%',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      borderRadius: 5,
+      textAlign: 'right',
       display: 'flex',
+      alignItems: 'center'
+    };
+
+    const spacerStyle = {
+      position: 'relative',
+      color: 'white',
+      display: 'inline-block',
       alignItems: 'center',
       minWidth: 50,
-      height: 40,
-      fontSize: 30,
-      margin: 5,
-      borderRadius: 5,
-      border: '4px solid blue',
-      justifyContent: 'center',
-      cursor: 'text'
+      fontSize: 60,
+      paddingRight: 20,
+      paddingLeft: 20,
+      letterSpacing: 1.5,
     };
 
     if(this.props.question.get('status') === statusTypes.CORRECT) {
@@ -29,14 +46,17 @@ export default class QuestionInput extends React.Component {
 
     return (
       <label style={{ height: '100%', display: 'inline-block' }}>
-        <span style={inputStyle}>{this.props.value}</span>
-        <input
-          ref={(input) => { this.answerInput = input; }}
-          type="number"
-          style={{ width: 0, color: 'white', outline: 'none', border: 'none', height: 0, position: 'absolute' }}
-          value={this.props.value}
-          onChange={e => this.props.onChange(e.target.value)}
-        />
+        <span style={spacerStyle}>
+          {this.props.value || '#'}
+          <input
+            ref={(input) => { this.answerInput = input; }}
+            type="number"
+            style={inputStyle}
+            value={this.props.value}
+            onChange={e => this.props.onChange(e.target.value)}
+            placeholder="?"
+          />
+        </span>
       </label>
     );
   }
