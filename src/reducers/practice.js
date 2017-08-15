@@ -22,6 +22,9 @@ export default function challenges(state = initialState, action) {
     case actionTypes.REMOVE_PRACTICE_FACTOR:
       return removeFactor(state, action);
 
+    case 'ADD_QUESTION_TO_HISTORY':
+      return state.updateIn(['history'], historyList => historyList.push(action.question));
+
     case actionTypes.RESET_PRACTICE_FACTOR:
       return state.setIn(['includedTables', action.table, 'factors', action.factorType], Range(0, 11).toList());
 

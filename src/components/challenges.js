@@ -1,6 +1,7 @@
 import React from 'react';
 import DifficultyPicker from '../containers/difficulty-picker';
 import { CHALLENGE_MENU } from '../constants/pages';
+import challengeList from '../constants/challenges';
 
 export default class Challenges extends React.PureComponent {
   componentDidMount() {
@@ -9,12 +10,12 @@ export default class Challenges extends React.PureComponent {
 
   render() {
 
-    const challenges = this.props.challenges.toList().map(challenge => {
+    const challenges = challengeList.map(challenge => {
       return (
         <div
           key={challenge.get('id')}
           className="challenges-item"
-          onClick={() =>this.props.initChallenge(challenge.get('id'))}
+          onClick={() => this.props.initChallenge(challenge)}
         >
           <span>{challenge.get('name')}</span>
         </div>

@@ -33,13 +33,12 @@ export const generateQuestion = (method) => (dispatch, getState) => {
   const difficulty = getState().getIn([reducer, 'difficulty']);
   let includedTablesList = getState().getIn([reducer, 'includedTables']).toList();
   if(gameType === CHALLENGE) {
-    includedTablesList = getState().getIn([reducer, 'includedTables']);
+    includedTablesList = getState().getIn([reducer, 'includedTables']).toList();
   }
 
   const tableIndex = getRandomNumberBetween(0, includedTablesList.size - 1);
   let table = includedTablesList.get(tableIndex);
-console.log(includedTablesList.toJS())
-console.log(tableIndex, table)
+
   let qValue1;
   let qValue2;
 
@@ -53,19 +52,22 @@ console.log(tableIndex, table)
   let refreshTable = false;
   let resetFactorActonType = isPractice ? RESET_PRACTICE_FACTOR : RESET_CHALLENGE_FACTOR;
 
-  if(table.getIn(['factors', 'qV2']).size === 0) {
-    dispatch({ type: resetFactorActonType, factorType: 'qV2', table: table.get('key') });
-    refreshTable = true;
+  if(table) {
+    if(table.getIn(['factors', 'qV2']).size === 0) {
+      dispatch({ type: resetFactorActonType, factorType: 'qV2', table: table.get('key') });
+      refreshTable = true;
+    }
+
+    if(table.getIn(['factors', 'qV1']).size === 0) {
+      dispatch({ type: resetFactorActonType, factorType: 'qV1', table: table.get('key') });
+      refreshTable = true;
+    }
+
+    if(refreshTable === true) {
+      table = getState().getIn([reducer, 'includedTables', table.get('key')]);
+    }
   }
 
-  if(table.getIn(['factors', 'qV1']).size === 0) {
-    dispatch({ type: resetFactorActonType, factorType: 'qV1', table: table.get('key') });
-    refreshTable = true;
-  }
-
-  if(refreshTable === true) {
-    table = getState().getIn([reducer, 'includedTables', table.get('key')]);
-  }
 
   let customType;
   let factor;
@@ -73,22 +75,24 @@ console.log(tableIndex, table)
 
   if(Math.random() > 0.5) {
     customType = [TYPE1, TYPE3][getRandomNumberBetween(0, 1)];
-    const val2Index = getRandomNumberBetween(0, table.getIn(['factors', 'qV2']).size - 1);
+    const val2Index = table ? getRandomNumberBetween(0, table.getIn(['factors', 'qV2']).size - 1) : 0;
     qValue1 = method === MULTIPLY ? table.get('value') : getRandomNumberBetween(0, addSubractRangeLimit);
     qValue2 = method === MULTIPLY ? table.getIn(['factors', 'qV2', val2Index]) : getRandomNumberBetween(0, addSubractRangeLimit);
     factor = qValue2;
     factorType = 'qV2';
   } else {
     customType = [TYPE1, TYPE2][getRandomNumberBetween(0, 1)];
-    const val1Index = getRandomNumberBetween(0, table.getIn(['factors', 'qV1']).size - 1);
+    const val1Index = table ? getRandomNumberBetween(0, table.getIn(['factors', 'qV1']).size - 1) : 0;
     qValue1 = method === MULTIPLY ? table.getIn(['factors', 'qV1', val1Index]) : getRandomNumberBetween(0, addSubractRangeLimit);
     qValue2 = method === MULTIPLY ? table.get('value') : getRandomNumberBetween(0, addSubractRangeLimit);
     factor = qValue1;
     factorType = 'qV1';
   }
 
-  const removeFactorActionType = isPractice  === true ? REMOVE_PRACTICE_FACTOR : REMOVE_CHALLENGE_FACTOR;
-  dispatch({ type: removeFactorActionType, table: table.get('key'), factor, factorType });
+  if(method === MULTIPLY) {
+    const removeFactorActionType = isPractice  === true ? REMOVE_PRACTICE_FACTOR : REMOVE_CHALLENGE_FACTOR;
+    dispatch({ type: removeFactorActionType, table: table.get('key'), factor, factorType });
+  }
   
   let answer;
   switch(method) {
@@ -137,6 +141,7 @@ export const checkAnswer = (question, answer) => dispatch => {
 };
 
 export const endChallenge = () => (dispatch, getState) => {
+  console.warn('ENDED')
   // upload challenge to server
   // save challenge to challengeHistory
   // show challenge result screen
@@ -183,7 +188,7 @@ export const answerQuestion = (question, answer) => (dispatch, getState) => {
   if(gameType === CHALLENGE) {
     dispatch({ type: actionTypes.ADD_QUESTION_TO_CHALLENGE, question, gameType });
     if(currentQuestion === questionCount) {
-      dispatch(endChallenge())
+      return dispatch(endChallenge())
     }
   } else {
     dispatch({ type: actionTypes.ADD_QUESTION_TO_HISTORY, question, gameType });

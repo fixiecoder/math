@@ -7,7 +7,8 @@ import {
 
 const mapStateToProps = state => {
   const gameType = state.getIn(['questions', 'gameType']);
-  const history = state.getIn(['questions', gameTypeMap[gameType]]);
+  const reducer = gameType === 'PRACTICE' ? 'practice' : 'challenges';
+  const history = state.getIn([reducer, 'history']);
   return {
     history,
     gameType

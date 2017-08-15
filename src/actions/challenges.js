@@ -2,23 +2,34 @@ import { browserHistory } from 'react-router';
 import { Map, List } from 'immutable';
 import { setCurrentChallenge, setGameType } from './questions';
 import { CHALLENGE } from '../constants/game-types';
+import { TABLES } from '../constants/tables';
+import * as actionTypes from './types/challenges';
 
-export const initChallenge = (challengeId) => (dispatch, getState) => {
-  const tables = getState().getIn(['questions', 'timesTables'])
-  const challenge = getState().getIn(['challenges', challengeId]);
-  const includedTables = challenge.get('tables').map(table => tables.get(table));
-  console.log(tables.toJS())
-  console.log(challenge.toJS())
-  console.log(includedTables.toJS())
-  const currentChallenge = Map({
-    id: challengeId,
-    questionCount: challenge.get(),
-    currentQuestion: challenge.get('questionCount'),
-    questions: List(),
-    includedTables
+export const setChallenge = challenge => dispatch => {
+  dispatch({ type: actionTypes.SET_CHALLENGE, challenge })
+};
+
+export const initChallenge = (challenge) => (dispatch, getState) => {
+  let tables = Map();
+  challenge.get('includedTables').forEach(tableKey =>
+    tables = tables.set(tableKey, TABLES.get(tableKey))
+  );
+
+  let methods = Map();
+  challenge.get('methods').forEach(method => {
+    methods = methods.set(method, Map({ method }))
   });
 
-  dispatch(setCurrentChallenge(currentChallenge));
+  const currentChallenge = Map({
+    id: challenge.get('id'),
+    questionCount: challenge.get('questionCount'),
+    currentQuestion: 0,
+    history: List(),
+    includedTables: tables,
+    methods
+  });
+
+  dispatch(setChallenge(currentChallenge));
   dispatch(setGameType(CHALLENGE));
   browserHistory.push('/app/questions');
 
