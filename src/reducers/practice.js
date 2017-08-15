@@ -1,10 +1,29 @@
-import { Map, List } from 'immutable';
+import { Map, List, Range } from 'immutable';
 import * as actionTypes from '../actions/types/practice';
 
 const initialState = Map();
 
+function removeFactor(state, action) {
+  let factorList = state.getIn(['includedTables', action.table, 'factors', action.factorType]);
+  if(action.table === 'zero' || !action.table) {
+    return state;
+  }
+  factorList = factorList.filter(factor => {
+    return factor !== action.factor
+  });
+
+  const newState = state.setIn(['includedTables', action.table, 'factors', action.factorType], factorList);
+  return newState;
+}
+
 export default function challenges(state = initialState, action) {
   switch(action.type) {
+
+    case actionTypes.REMOVE_PRACTICE_FACTOR:
+      return removeFactor(state, action);
+
+    case actionTypes.RESET_PRACTICE_FACTOR:
+      return state.setIn(['includedTables', action.table, 'factors', action.factorType], Range(0, 11).toList());
 
     case actionTypes.SET_PRACTICE:
       return action.practice;

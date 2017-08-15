@@ -18,7 +18,7 @@ export default function TablePicker(props) {
       );
     });
   const style = {
-    height: props.methods.getIn(['MULTIPLY', 'included']) ? 200 : 0
+    height: props.show ? 200 : 0
   };
   return (
     <div className="table-picker-wrapper" style={style}>

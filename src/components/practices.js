@@ -12,6 +12,7 @@ export default class Practices extends React.PureComponent {
   constructor(props) {
     super(props);
     this.startPractice = this.startPractice.bind(this);
+    this.setMethod = this.setMethod.bind(this);
     this.setTable = this.setTable.bind(this);
     this.state = {
       methods: Map({
@@ -34,7 +35,6 @@ export default class Practices extends React.PureComponent {
   }
 
   startPractice() {
-    console.log(this.state.tables)
     this.props.initPractice('EASY', this.state.methods, this.state.tables);
   }
 
@@ -42,13 +42,16 @@ export default class Practices extends React.PureComponent {
     this.props.setCurrentPage(PRACTICE_MENU);
   }
 
+  setMethod(key, included) {
+    const tables = this.state.methods.setIn([key, 'included'], included);
+    this.setState({ methods: tables });
+  }
   setTable(key, included) {
     const tables = this.state.tables.setIn([key, 'included'], included);
     this.setState({ tables: tables });
   }
 
   render() {
-    console.log(this.state.tables.toJS())
     const disable = !this.props.methods.reduce((res, method) =>
       res || method.get('included'), false
     );
@@ -58,8 +61,8 @@ export default class Practices extends React.PureComponent {
       <div>
        <h2>Choose what you want to practice</h2>
        <DifficultyPicker />
-        <MethodPicker methods={this.state.methods} />
-        <TablePicker tables={this.state.tables} setTable={this.setTable} />
+        <MethodPicker methods={this.state.methods} setMethod={this.setMethod} />
+        <TablePicker show={this.state.methods.getIn([MULTIPLY, 'included'])} tables={this.state.tables} setTable={this.setTable} />
         <div className="menu-play-buttons">
           <button onClick={this.startPractice} className={`menu-play-button ${disabledClass}`} to="/app/questions">Go</button>
         </div>

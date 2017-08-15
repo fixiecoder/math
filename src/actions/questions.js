@@ -19,8 +19,8 @@ import {
   TYPE2,
   TYPE3
 } from '../constants/question-types';
-import { REMOVE_PRACTICE_FACTOR } from './types/practice';
-import { REMOVE_CHALLENGE_FACTOR } from './types/challenges';
+import { REMOVE_PRACTICE_FACTOR, RESET_PRACTICE_FACTOR } from './types/practice';
+import { REMOVE_CHALLENGE_FACTOR, RESET_CHALLENGE_FACTOR } from './types/challenges';
 import * as difficulties from '../constants/difficulty-types';
 import { PRACTICE, CHALLENGE } from '../constants/game-types';
 
@@ -29,18 +29,17 @@ export const generateQuestion = (method) => (dispatch, getState) => {
   const isPractice = gameType === PRACTICE;
   const reducer = isPractice === true ? 'practice' : 'challenges';
   const methods = getState().getIn([reducer, 'methods']).toList();
-  console.log(methods)
   let method = methods.get(getRandomNumberBetween(0, methods.size - 1)).get('method');
   const difficulty = getState().getIn([reducer, 'difficulty']);
   let includedTablesList = getState().getIn([reducer, 'includedTables']).toList();
-
   if(gameType === CHALLENGE) {
-    includedTablesList = getState().getIn(['questions', 'challenge', 'includedTables']);
+    includedTablesList = getState().getIn([reducer, 'includedTables']);
   }
 
   const tableIndex = getRandomNumberBetween(0, includedTablesList.size - 1);
   let table = includedTablesList.get(tableIndex);
-
+console.log(includedTablesList.toJS())
+console.log(tableIndex, table)
   let qValue1;
   let qValue2;
 
@@ -52,39 +51,45 @@ export const generateQuestion = (method) => (dispatch, getState) => {
   }
 
   let refreshTable = false;
+  let resetFactorActonType = isPractice ? RESET_PRACTICE_FACTOR : RESET_CHALLENGE_FACTOR;
 
-  if(isPractice && table.getIn(['factors', 'qV2']).size === 0) {
-    dispatch({ type: actionTypes.RESET_FACTOR, factorType: 'qV2', table: table.get('key') });
+  if(table.getIn(['factors', 'qV2']).size === 0) {
+    dispatch({ type: resetFactorActonType, factorType: 'qV2', table: table.get('key') });
     refreshTable = true;
   }
 
-  if(isPractice && table.getIn(['factors', 'qV1']).size === 0) {
-    dispatch({ type: actionTypes.RESET_FACTOR, factorType: 'qV1', table: table.get('key') });
+  if(table.getIn(['factors', 'qV1']).size === 0) {
+    dispatch({ type: resetFactorActonType, factorType: 'qV1', table: table.get('key') });
     refreshTable = true;
   }
 
   if(refreshTable === true) {
-    table = getState().getIn(['questions', 'timesTables', table.get('key')]);
+    table = getState().getIn([reducer, 'includedTables', table.get('key')]);
   }
 
   let customType;
+  let factor;
+  let factorType;
 
   if(Math.random() > 0.5) {
     customType = [TYPE1, TYPE3][getRandomNumberBetween(0, 1)];
     const val2Index = getRandomNumberBetween(0, table.getIn(['factors', 'qV2']).size - 1);
     qValue1 = method === MULTIPLY ? table.get('value') : getRandomNumberBetween(0, addSubractRangeLimit);
     qValue2 = method === MULTIPLY ? table.getIn(['factors', 'qV2', val2Index]) : getRandomNumberBetween(0, addSubractRangeLimit);
+    factor = qValue2;
+    factorType = 'qV2';
   } else {
     customType = [TYPE1, TYPE2][getRandomNumberBetween(0, 1)];
     const val1Index = getRandomNumberBetween(0, table.getIn(['factors', 'qV1']).size - 1);
     qValue1 = method === MULTIPLY ? table.getIn(['factors', 'qV1', val1Index]) : getRandomNumberBetween(0, addSubractRangeLimit);
     qValue2 = method === MULTIPLY ? table.get('value') : getRandomNumberBetween(0, addSubractRangeLimit);
+    factor = qValue1;
+    factorType = 'qV1';
   }
 
   const removeFactorActionType = isPractice  === true ? REMOVE_PRACTICE_FACTOR : REMOVE_CHALLENGE_FACTOR;
-  dispatch({ type: removeFactorActionType, table: tableMap[qValue1], factor: qValue2, factorType: 'qV2' });
-  // dispatch({ type: removeFactorActionType, table: tableMap[qValue2], factor: qValue1, factorType: 'qV1'  });
-
+  dispatch({ type: removeFactorActionType, table: table.get('key'), factor, factorType });
+  
   let answer;
   switch(method) {
     case MULTIPLY:

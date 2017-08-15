@@ -11,17 +11,18 @@ export const setPractice = (practice) => dispatch => {
 
 export const initPractice = (difficulty, methods, tables) => (dispatch, getState) => {
   tables = tables.filter(table => table.get('included'));
-  const includedTables = tables.map(table => TABLES.get(table));
-  includedMethods = methods.filter(method => method.get('included') === true);
-console.log(methods.toJS())
-console.log(includedMethods)
+  const includedTables = tables.map(table => {
+    console.log('=================')
+    console.log(table.toJS())
+    return TABLES.get(table.get('key'));
+  });
+  const includedMethods = methods.filter(method => method.get('included') === true);
   const practice = Map({
     questions: List(),
     includedTables,
     methods: includedMethods,
     difficulty 
   });
-  console.log(practice.toJS())
 
   dispatch(setPractice(practice));
   dispatch(setGameType(PRACTICE));
