@@ -11,6 +11,7 @@ import { MULTIPLY, PLUS } from '../constants/methods';
 export default class Practices extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.startPractice = this.startPractice.bind(this);
     this.setTable = this.setTable.bind(this);
     this.state = {
       methods: Map({
@@ -33,6 +34,7 @@ export default class Practices extends React.PureComponent {
   }
 
   startPractice() {
+    console.log(this.state.tables)
     this.props.initPractice('EASY', this.state.methods, this.state.tables);
   }
 

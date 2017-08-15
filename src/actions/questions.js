@@ -28,9 +28,8 @@ export const generateQuestion = (method) => (dispatch, getState) => {
   const gameType = getState().getIn(['questions', 'gameType']);
   const isPractice = gameType === PRACTICE;
   const reducer = isPractice === true ? 'practice' : 'challenges';
-
-  console.log(reducer)
   const methods = getState().getIn([reducer, 'methods']).toList();
+  console.log(methods)
   let method = methods.get(getRandomNumberBetween(0, methods.size - 1)).get('method');
   const difficulty = getState().getIn([reducer, 'difficulty']);
   let includedTablesList = getState().getIn([reducer, 'includedTables']).toList();
