@@ -1,4 +1,5 @@
 import uuid from 'uuid';
+import { browserHistory } from 'react-router';
 import { Map } from 'immutable';
 import {
   getRandomNumberBetween,
@@ -141,20 +142,36 @@ export const checkAnswer = (question, answer) => dispatch => {
 };
 
 export const endChallenge = () => (dispatch, getState) => {
-  console.warn('ENDED')
-  // upload challenge to server
+  const id = uuid.v4()
+  const challenge = getState().get('challenges');
+  const correctAnswers = challenge.get('history')
+    .filter(question => question.get('status') === statusTypes.CORRECT)
+    .size;
+  const percentage = (100 / challenge.get('questionCount')) * correctAnswers;
+    
+  const updatedChallenge = challenge
+    .set('endTime', Date.now())
+    .set('id', id)
+    .set('percentCorrect', percentage);
+
   // save challenge to challengeHistory
-  // show challenge result screen
+  dispatch({ type: actionTypes.ADD_TO_CHALLENGE_HISTORY, id, challenge: updatedChallenge })
+
+  // upload challenge to server
+
   // set awards in challenges if any
-  // reset currentChallenge in state
+
+  // show challenge result screen
+  browserHistory.push('/app/completed');
 }
 
 export const answerQuestion = (question, answer) => (dispatch, getState) => {
   let status;
   answer = Number(answer);
-  const currentQuestion = getState().getIn(['questions', 'challenge', 'currentQuestion']);
-  const questionCount = getState().getIn(['questions', 'challenge', 'currentQuestion']);
-
+  const isPractice = gameType === PRACTICE;
+  const reducer = isPractice === true ? 'practice' : 'challenges';
+  const currentQuestion = getState().getIn([reducer, 'currentQuestion']);
+  const questionCount = getState().getIn([reducer, 'questionCount']);
   switch(question.get('questionType')) {
     case TYPE1:
       status = question.get('answer') === answer ? statusTypes.CORRECT : statusTypes.INCORRECT;
@@ -176,6 +193,7 @@ export const answerQuestion = (question, answer) => (dispatch, getState) => {
 
   const message = status === statusTypes.CORRECT ?
     getRandomCorrectMessage() : getRandomIncorrectMessage();
+
   question = question.set('status', status);
   question = question.set('endTime', Date.now());
   question = question.set('duration', question.get('endTime') - question.get('startTime'));

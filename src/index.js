@@ -10,6 +10,7 @@ import Login from './containers/login';
 import Menu from './containers/menu';
 import Practices from './containers/practices';
 import Challenges from './containers/challenges';
+import CompleteChallenge from './containers/completed-challenge';
 import store from './store';
 
 function requireNoAuth(mextState, replace, callback) {
@@ -39,6 +40,7 @@ ReactDOM.render((
           <Route path="menu" component={Menu} />
           <Route path="practice" component={Practices} />
           <Route path="challenge" component={Challenges} />
+          <Route path="completed" component={CompleteChallenge} />
           <Route path="questions" component={Question} />
         </Route>
       </Route>

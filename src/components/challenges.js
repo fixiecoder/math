@@ -13,7 +13,7 @@ export default class Challenges extends React.PureComponent {
     const challenges = challengeList.map(challenge => {
       return (
         <div
-          key={challenge.get('id')}
+          key={challenge.get('challengeId')}
           className="challenges-item"
           onClick={() => this.props.initChallenge(challenge)}
         >
@@ -24,13 +24,10 @@ export default class Challenges extends React.PureComponent {
 
 
     return (
-      <div>
-       <h2>Challenges</h2>
-       <DifficultyPicker />
-       <div className="challenges-wrapper">
-          <div className="challenges-inner">
-            {challenges}
-          </div>
+      <div className="challenges-wrapper">
+        <h2>Challenges</h2>
+        <div className="challenges-inner drop-shaddow">
+          {challenges}
         </div>
       </div>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { COMPLETED_CHALLENGE } form '../constants/pages';
+import { COMPLETED_CHALLENGE } from '../constants/pages';
 
 export default class CompletedChallenge extends React.PureComponent {
   componentDidMount() {

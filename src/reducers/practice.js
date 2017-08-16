@@ -26,7 +26,7 @@ export default function challenges(state = initialState, action) {
       return state.updateIn(['history'], historyList => historyList.push(action.question));
 
     case actionTypes.RESET_PRACTICE_FACTOR:
-      return state.setIn(['includedTables', action.table, 'factors', action.factorType], Range(0, 11).toList());
+      return state.setIn(['includedTables', action.table, 'factors', action.factorType], Range(1, 11).toList());
 
     case actionTypes.SET_PRACTICE:
       return action.practice;

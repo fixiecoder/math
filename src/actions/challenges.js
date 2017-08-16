@@ -21,9 +21,10 @@ export const initChallenge = (challenge) => (dispatch, getState) => {
   });
 
   const currentChallenge = Map({
-    id: challenge.get('id'),
+    startTime: Date.now(),
+    challengeId: challenge.get('challengeId'),
     questionCount: challenge.get('questionCount'),
-    currentQuestion: 0,
+    currentQuestion: 1,
     history: List(),
     includedTables: tables,
     methods

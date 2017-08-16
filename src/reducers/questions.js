@@ -6,7 +6,7 @@ import { PRACTICE, gameTypeMap } from '../constants/game-types';
 
 const initialState = Map({
   practiceHistory: List(),
-  challengeHistory: List(),
+  challengeHistory: Map(),
   difficulty: difficuty.EASY,
   methods: Map({
     [methods.MULTIPLY]: Map({
@@ -52,6 +52,10 @@ function removeFactor(state, action) {
 export default function questions(state = initialState, action) {
   switch(action.type) {
 
+    case actionTypes.ADD_TO_CHALLENGE_HISTORY:
+    console.log('here we are', state.setIn(['challengeHistory', action.id], action.challenge).toJS())
+      return state.setIn(['challengeHistory', action.id], action.challenge);
+      
     case actionTypes.SET_CURRENT_CHALLENGE:
       return state.set('currentChallenge', action.currentChallenge);
       

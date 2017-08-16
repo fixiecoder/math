@@ -6,6 +6,7 @@ import {
   CHALLENGE_MENU,
   PRACTICE_QUESTION,
   CHALLENGE_QUESTION,
+  COMPLETED_CHALLENGE,
 } from '../constants/pages';
 import Trophy from 'react-icons/lib/fa/trophy';
 
@@ -30,6 +31,7 @@ export default function Toolbar(props) {
       );
       break;
 
+    case COMPLETED_CHALLENGE:
     case CHALLENGE_QUESTION:
       questionMenuItems = (
         <div>

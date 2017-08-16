@@ -34,8 +34,8 @@ export const TABLES = Map({
     included: false,
     value: 1,
     factors: Map({
-      qV1: Range(0, 11).toList(),
-      qV2: Range(0, 11).toList(),
+      qV1: Range(1, 11).toList(),
+      qV2: Range(1, 11).toList(),
     }),
   }),
   'two': Map({
@@ -43,8 +43,8 @@ export const TABLES = Map({
     included: true,
     value: 2,
     factors: Map({
-      qV1: Range(0, 11).toList(),
-      qV2: Range(0, 11).toList(),
+      qV1: Range(1, 11).toList(),
+      qV2: Range(1, 11).toList(),
     }),
   }),
   'three': Map({
@@ -52,8 +52,8 @@ export const TABLES = Map({
     included: false,
     value: 3,
     factors: Map({
-      qV1: Range(0, 11).toList(),
-      qV2: Range(0, 11).toList(),
+      qV1: Range(1, 11).toList(),
+      qV2: Range(1, 11).toList(),
     }),
   }),
   'four': Map({
@@ -61,8 +61,8 @@ export const TABLES = Map({
     included: false,
     value: 4,
     factors: Map({
-      qV1: Range(0, 11).toList(),
-      qV2: Range(0, 11).toList(),
+      qV1: Range(1, 11).toList(),
+      qV2: Range(1, 11).toList(),
     }),
   }),
   'five': Map({
@@ -70,8 +70,8 @@ export const TABLES = Map({
     included: false,
     value: 5,
     factors: Map({
-      qV1: Range(0, 11).toList(),
-      qV2: Range(0, 11).toList(),
+      qV1: Range(1, 11).toList(),
+      qV2: Range(1, 11).toList(),
     }),
   }),
   'six': Map({
@@ -79,8 +79,8 @@ export const TABLES = Map({
     included: false,
     value: 6,
     factors: Map({
-      qV1: Range(0, 11).toList(),
-      qV2: Range(0, 11).toList(),
+      qV1: Range(1, 11).toList(),
+      qV2: Range(1, 11).toList(),
     }),
   }),
   'seven': Map({
@@ -88,8 +88,8 @@ export const TABLES = Map({
     included: false,
     value: 7,
     factors: Map({
-      qV1: Range(0, 11).toList(),
-      qV2: Range(0, 11).toList(),
+      qV1: Range(1, 11).toList(),
+      qV2: Range(1, 11).toList(),
     }),
   }),
   'eight': Map({
@@ -97,8 +97,8 @@ export const TABLES = Map({
     included: false,
     value: 8,
     factors: Map({
-      qV1: Range(0, 11).toList(),
-      qV2: Range(0, 11).toList(),
+      qV1: Range(1, 11).toList(),
+      qV2: Range(1, 11).toList(),
     }),
   }),
   'nine': Map({
@@ -106,8 +106,8 @@ export const TABLES = Map({
     included: false,
     value: 9,
     factors: Map({
-      qV1: Range(0, 11).toList(),
-      qV2: Range(0, 11).toList(),
+      qV1: Range(1, 11).toList(),
+      qV2: Range(1, 11).toList(),
     }),
   }),
   'ten': Map({
@@ -115,8 +115,8 @@ export const TABLES = Map({
     included: false,
     value: 10,
     factors: Map({
-      qV1: Range(0, 11).toList(),
-      qV2: Range(0, 11).toList(),
+      qV1: Range(1, 11).toList(),
+      qV2: Range(1, 11).toList(),
     }),
   }),
 });
