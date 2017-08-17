@@ -23,6 +23,7 @@ export const logout = () => (dispatch, getState) => {
   dispatch(API.del(`/session/${tokenKey}`));
   dispatch(setAuthTokens(Map({ tokenKey: null, tokenValue: null })));
   localStorage.clear();
+  dispatch({ type: 'RESET_STATE' });
   browserHistory.replace('/login');
 };
 

@@ -9,7 +9,7 @@ import { initChallenge } from '../actions/challenges';
 const mapStateToProps = state => {
   return {
     difficulty: state.getIn(['questions', 'difficulty']),
-    // challenges: state.get('challenges')
+    challenges: state.get('challenges')
   };
 }
 

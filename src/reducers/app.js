@@ -12,6 +12,9 @@ export default function test(state = initialState, action) {
     case actionTypes.SET_CURRENT_PAGE:
       return state.set('currentPage', action.page);
 
+    case 'RESET_STATE':
+      return initialState;
+
     default:
       return state;
   }

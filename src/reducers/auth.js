@@ -17,6 +17,9 @@ export default function test(state = initialState, action) {
       return state.set('tokenKey', action.authTokens.get('tokenKey'))
         .set('tokenValue', action.authTokens.get('tokenValue'));
 
+    case 'RESET_STATE':
+      return initialState;
+
     default:
       return state;
   }

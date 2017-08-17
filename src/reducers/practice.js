@@ -31,6 +31,9 @@ export default function challenges(state = initialState, action) {
     case actionTypes.SET_PRACTICE:
       return action.practice;
 
+    case 'RESET_STATE':
+      return initialState;
+
     default:
       return state;
   }

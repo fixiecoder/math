@@ -21,14 +21,15 @@ import {
   TYPE3
 } from '../constants/question-types';
 import { REMOVE_PRACTICE_FACTOR, RESET_PRACTICE_FACTOR } from './types/practice';
-import { REMOVE_CHALLENGE_FACTOR, RESET_CHALLENGE_FACTOR } from './types/challenges';
+import { REMOVE_CHALLENGE_FACTOR, RESET_CHALLENGE_FACTOR } from './types/challenge';
 import * as difficulties from '../constants/difficulty-types';
 import { PRACTICE, CHALLENGE } from '../constants/game-types';
+import { setChallengeTrophy } from './challenges';
 
 export const generateQuestion = (method) => (dispatch, getState) => {
   const gameType = getState().getIn(['questions', 'gameType']);
   const isPractice = gameType === PRACTICE;
-  const reducer = isPractice === true ? 'practice' : 'challenges';
+  const reducer = isPractice === true ? 'practice' : 'challenge';
   const methods = getState().getIn([reducer, 'methods']).toList();
   let method = methods.get(getRandomNumberBetween(0, methods.size - 1)).get('method');
   const difficulty = getState().getIn([reducer, 'difficulty']);
@@ -143,7 +144,7 @@ export const checkAnswer = (question, answer) => dispatch => {
 
 export const endChallenge = () => (dispatch, getState) => {
   const id = uuid.v4()
-  const challenge = getState().get('challenges');
+  const challenge = getState().get('challenge');
   const correctAnswers = challenge.get('history')
     .filter(question => question.get('status') === statusTypes.CORRECT)
     .size;
@@ -157,9 +158,16 @@ export const endChallenge = () => (dispatch, getState) => {
   // save challenge to challengeHistory
   dispatch({ type: actionTypes.ADD_TO_CHALLENGE_HISTORY, id, challenge: updatedChallenge })
 
+  if(percentage >= 100) {
+    dispatch(setChallengeTrophy(challenge.get('challengeId'), 'GOLD'));
+  } else if(percentage >= 75) {
+    dispatch(setChallengeTrophy(challenge.get('challengeId'), 'SILVER'));
+  } else if(percentage >= 50) {
+    dispatch(setChallengeTrophy(challenge.get('challengeId'), 'BRONZE'));
+  }
   // upload challenge to server
 
-  // set awards in challenges if any
+  // set awards in challenge if any
 
   // show challenge result screen
   browserHistory.push('/app/completed');
@@ -169,7 +177,7 @@ export const answerQuestion = (question, answer) => (dispatch, getState) => {
   let status;
   answer = Number(answer);
   const isPractice = gameType === PRACTICE;
-  const reducer = isPractice === true ? 'practice' : 'challenges';
+  const reducer = isPractice === true ? 'practice' : 'challenge';
   const currentQuestion = getState().getIn([reducer, 'currentQuestion']);
   const questionCount = getState().getIn([reducer, 'questionCount']);
   switch(question.get('questionType')) {
