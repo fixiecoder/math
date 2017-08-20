@@ -24,7 +24,7 @@ import { REMOVE_PRACTICE_FACTOR, RESET_PRACTICE_FACTOR } from './types/practice'
 import { REMOVE_CHALLENGE_FACTOR, RESET_CHALLENGE_FACTOR } from './types/challenge';
 import * as difficulties from '../constants/difficulty-types';
 import { PRACTICE, CHALLENGE } from '../constants/game-types';
-import { setChallengeTrophy } from './challenges';
+import { setChallengeTrophy, storeUserChallenges, endChallenge } from './challenges';
 
 export const generateQuestion = (method) => (dispatch, getState) => {
   const gameType = getState().getIn(['questions', 'gameType']);
@@ -142,36 +142,6 @@ export const checkAnswer = (question, answer) => dispatch => {
 
 };
 
-export const endChallenge = () => (dispatch, getState) => {
-  const id = uuid.v4()
-  const challenge = getState().get('challenge');
-  const correctAnswers = challenge.get('history')
-    .filter(question => question.get('status') === statusTypes.CORRECT)
-    .size;
-  const percentage = (100 / challenge.get('questionCount')) * correctAnswers;
-    
-  const updatedChallenge = challenge
-    .set('endTime', Date.now())
-    .set('id', id)
-    .set('percentCorrect', percentage);
-
-  // save challenge to challengeHistory
-  dispatch({ type: actionTypes.ADD_TO_CHALLENGE_HISTORY, id, challenge: updatedChallenge })
-
-  if(percentage >= 100) {
-    dispatch(setChallengeTrophy(challenge.get('challengeId'), 'GOLD'));
-  } else if(percentage >= 75) {
-    dispatch(setChallengeTrophy(challenge.get('challengeId'), 'SILVER'));
-  } else if(percentage >= 50) {
-    dispatch(setChallengeTrophy(challenge.get('challengeId'), 'BRONZE'));
-  }
-  // upload challenge to server
-
-  // set awards in challenge if any
-
-  // show challenge result screen
-  browserHistory.push('/app/completed');
-}
 
 export const answerQuestion = (question, answer) => (dispatch, getState) => {
   let status;

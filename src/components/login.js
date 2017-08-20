@@ -1,6 +1,6 @@
 import React from 'react';
 import titleImage from '../assets/title_blue.svg';
-
+import Loading from './loading';
 
 const titleStyle = {
   height: 200
@@ -55,6 +55,9 @@ export default class Login extends React.PureComponent {
   }
 
   render() {
+    if(this.props.loading) {
+      return <Loading />
+    }
     return (
       <div style={loginWrapperStyle}>
         <img alt="" style={titleStyle} src={titleImage} />

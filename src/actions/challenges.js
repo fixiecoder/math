@@ -1,9 +1,12 @@
+import uuid from 'uuid';
+import * as statusTypes from '../constants/question-status';
 import { browserHistory } from 'react-router';
-import { Map, List } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 import { setCurrentChallenge, setGameType } from './questions';
 import { CHALLENGE } from '../constants/game-types';
 import { TABLES } from '../constants/tables';
 import * as actionTypes from './types/challenge';
+import API from './api';
 
 
 function trophyIsBetterThanCurrentTrophy(newTrophy, oldTrophy) {
@@ -55,4 +58,58 @@ export const initChallenge = (challenge) => (dispatch, getState) => {
   dispatch(setGameType(CHALLENGE));
   browserHistory.push('/app/questions');
 
+};
+
+export const storeUserChallenges = () => (dispatch, getState) => {
+  const userId = getState().getIn(['user', 'id']);
+  const challenges = getState().get('challenges');
+  return dispatch(API.post(`/user/${userId}/challenges`, challenges.toJS()));
+};
+
+export const getUserChallenges = (userId) => (dispatch, getState) =>
+  dispatch(API.get(`/user/${userId}/challenges`))
+    .then(result => {
+      if(result) {
+        dispatch({ type: actionTypes.SET_ALL_CHALLENGES, challenges: fromJS(result.challenges) })
+      }
+    })
+
+
+export const endChallenge = () => (dispatch, getState) => {
+  const id = uuid.v4()
+  const challenge = getState().get('challenge');
+  const correctAnswers = challenge.get('history')
+    .filter(question => question.get('status') === statusTypes.CORRECT)
+    .size;
+  const percentage = (100 / challenge.get('questionCount')) * correctAnswers;
+    
+  const updatedChallenge = challenge
+    .set('endTime', Date.now())
+    .set('id', id)
+    .set('percentCorrect', percentage);
+
+  // save challenge to challengeHistory
+  dispatch({ type: actionTypes.ADD_TO_CHALLENGE_HISTORY, id, challenge: updatedChallenge })
+
+  if(percentage >= 100) {
+    dispatch(setChallengeTrophy(challenge.get('challengeId'), 'GOLD'));
+  } else if(percentage >= 75) {
+    dispatch(setChallengeTrophy(challenge.get('challengeId'), 'SILVER'));
+  } else if(percentage >= 50) {
+    dispatch(setChallengeTrophy(challenge.get('challengeId'), 'BRONZE'));
+  }
+
+  dispatch(storeUserChallenges()),
+  dispatch(uploadChallengeToHistory(updatedChallenge)),
+
+  // upload challenge to server
+
+  // show challenge result screen
+  browserHistory.push('/app/completed');
+}
+
+export const uploadChallengeToHistory = (challenge) => (dispatch, getState) => {
+  const userId = getState().getIn(['user', 'id']);
+  dispatch(API.post(`/user/${userId}/history`, challenge.toJS()))
+    .then(res => console.warn(res));
 };

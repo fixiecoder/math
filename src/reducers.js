@@ -4,6 +4,7 @@ import challenge from './reducers/challenge';
 import challenges from './reducers/challenges';
 import practice from './reducers/practice';
 import app from './reducers/app';
+import user from './reducers/user';
 import { combineReducers } from "redux-immutable";
 
 
@@ -13,5 +14,6 @@ export default combineReducers({
   challenge,
   practice,
   questions,
-  app
+  app,
+  user
 });

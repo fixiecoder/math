@@ -139,6 +139,9 @@ const initialState = Map({
 export default function challenges(state = initialState, action) {
   switch(action.type) {
 
+    case actionTypes.SET_ALL_CHALLENGES:
+      return action.challenges;
+
     case actionTypes.SET_CHALLENGE_TROPHY:
       return state.setIn([action.challengeId, 'trophy'], action.trophy);
 

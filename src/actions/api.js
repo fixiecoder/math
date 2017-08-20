@@ -1,11 +1,11 @@
-// const baseUrl = 'https://zq5rtfw2o0.execute-api.eu-west-1.amazonaws.com/prod';
-const baseUrl = 'https://1regoss6g3.execute-api.eu-west-1.amazonaws.com/prod';
+const baseUrl = 'https://4uyjdpykmh.execute-api.eu-west-1.amazonaws.com/prod';
 
 const makeRequest = (uri, method, body) => (dispatch, getState) => new Promise((resolve, reject) => {
   const authTokens = getState().get('auth');
   const headers = new Headers({
     'x-auth-token-key': authTokens.get('tokenKey'),
     'x-auth-token-value': authTokens.get('tokenValue'),
+    'content-type': 'application/json'
   });
   const request = {
     method,
@@ -54,9 +54,3 @@ export default {
     return dispatch(makeRequest(uri, 'DELETE'));
   }
 }
-
-
-// {
-//     "username": "amy",
-//     "password": "password2"
-// }

@@ -5,7 +5,7 @@ import { setCurrentPage } from '../actions/app'
 
 const mapStateToProps = state => {
   return {
-
+    loading: state.getIn(['app', 'loading'])
   };
 }
 
