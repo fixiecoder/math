@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Trophy from 'react-icons/lib/fa/trophy';
 import titleWhiteImage from '../assets/title_white.svg';
 import {
   PRACTICE_MENU,
@@ -8,7 +9,6 @@ import {
   CHALLENGE_QUESTION,
   COMPLETED_CHALLENGE,
 } from '../constants/pages';
-import Trophy from 'react-icons/lib/fa/trophy';
 
 export default function Toolbar(props) {
   let questionMenuItems;

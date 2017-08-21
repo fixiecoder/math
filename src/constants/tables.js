@@ -1,4 +1,4 @@
-import { Map, List, Range } from 'immutable';
+import { Map, Range } from 'immutable';
 
 export const tableMap = [
   'zero',
@@ -29,7 +29,7 @@ export const tableList = [
 ];
 
 export const TABLES = Map({
-  'one': Map({
+  one: Map({
     key: 'one',
     included: false,
     value: 1,
@@ -38,7 +38,7 @@ export const TABLES = Map({
       qV2: Range(1, 11).toList(),
     }),
   }),
-  'two': Map({
+  two: Map({
     key: 'two',
     included: true,
     value: 2,
@@ -47,7 +47,7 @@ export const TABLES = Map({
       qV2: Range(1, 11).toList(),
     }),
   }),
-  'three': Map({
+  three: Map({
     key: 'three',
     included: false,
     value: 3,
@@ -56,7 +56,7 @@ export const TABLES = Map({
       qV2: Range(1, 11).toList(),
     }),
   }),
-  'four': Map({
+  four: Map({
     key: 'four',
     included: false,
     value: 4,
@@ -65,7 +65,7 @@ export const TABLES = Map({
       qV2: Range(1, 11).toList(),
     }),
   }),
-  'five': Map({
+  five: Map({
     key: 'five',
     included: false,
     value: 5,
@@ -74,7 +74,7 @@ export const TABLES = Map({
       qV2: Range(1, 11).toList(),
     }),
   }),
-  'six': Map({
+  six: Map({
     key: 'six',
     included: false,
     value: 6,
@@ -83,7 +83,7 @@ export const TABLES = Map({
       qV2: Range(1, 11).toList(),
     }),
   }),
-  'seven': Map({
+  seven: Map({
     key: 'seven',
     included: false,
     value: 7,
@@ -92,7 +92,7 @@ export const TABLES = Map({
       qV2: Range(1, 11).toList(),
     }),
   }),
-  'eight': Map({
+  eight: Map({
     key: 'eight',
     included: false,
     value: 8,
@@ -101,7 +101,7 @@ export const TABLES = Map({
       qV2: Range(1, 11).toList(),
     }),
   }),
-  'nine': Map({
+  nine: Map({
     key: 'nine',
     included: false,
     value: 9,
@@ -110,7 +110,7 @@ export const TABLES = Map({
       qV2: Range(1, 11).toList(),
     }),
   }),
-  'ten': Map({
+  ten: Map({
     key: 'ten',
     included: false,
     value: 10,

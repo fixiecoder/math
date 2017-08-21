@@ -1,4 +1,4 @@
-import { Map, List } from 'immutable';
+import { Map } from 'immutable';
 import * as actionTypes from '../actions/types/challenge';
 
 const initialState = Map();

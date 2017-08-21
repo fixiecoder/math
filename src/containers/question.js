@@ -6,7 +6,7 @@ import {
   answerQuestion,
 } from '../actions/questions';
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   return {
     question: state.getIn(['questions', 'current']),
     gameType: state.getIn(['questions', 'gameType'])

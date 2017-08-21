@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import Menu from '../components/menu'
 import { setCurrentPage } from '../actions/app';
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   return {
     methods: state.getIn(['questions', 'methods'])
   };

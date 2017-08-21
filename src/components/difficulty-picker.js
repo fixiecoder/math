@@ -7,14 +7,14 @@ export default function DifficultyPicker(props) {
     display: 'flex',
     width: '100%',
     justifyContent: 'center'
-  }
+  };
 
   const inner = {
     margin: 20,
     display: 'flex',
     width: 400,
     justifyContent: 'center'
-  }
+  };
 
   const button = {
     flex: 1,
@@ -26,7 +26,7 @@ export default function DifficultyPicker(props) {
     justifyContent: 'center',
     cursor: 'pointer',
     height: 60
-  }
+  };
 
   const selected = Object.assign({}, button, {
     border: '10px solid RGB(0, 146, 69)'

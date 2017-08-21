@@ -4,7 +4,7 @@ import {
   setMethodIncluded,
 } from '../actions/questions'
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   return {
     // methods: state.getIn(['questions', 'methods']),
   };

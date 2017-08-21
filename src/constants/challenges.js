@@ -45,7 +45,7 @@ export default List([
     methods: List(['MULTIPLY']),
     difficulty: 'EASY',
     history: List()
-  }), 
+  }),
   Map({
     questionCount: 10,
     name: 'Seven times table easy',
@@ -110,28 +110,3 @@ export default List([
     history: List()
   })
 ]);
-
-/*
-"EASY"
-history
-:
-[]
-includedTables
-:
-three
-:
-{key: "three", included: false, value: 3, factors: {…}}
-two
-:
-{key: "two", included: true, value: 2, factors: {…}}
-__proto__
-:
-Object
-methods
-:
-MULTIPLY
-:
-{included: true, method: "MULTIPLY"}
-PLUS
-:
-{included: true, method: "PLUS"}*/

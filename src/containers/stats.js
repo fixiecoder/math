@@ -1,11 +1,10 @@
-import { connect } from 'react-redux'
-import Menu from '../components/stats'
-import { gameTypeMap } from '../constants/game-types';
+import { connect } from 'react-redux';
+import Menu from '../components/stats';
 import {
   resetQuestionHistoryByType
 } from '../actions/questions';
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   const gameType = state.getIn(['questions', 'gameType']);
   const reducer = gameType === 'PRACTICE' ? 'practice' : 'challenge';
   const history = state.getIn([reducer, 'history']);

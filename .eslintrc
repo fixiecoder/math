@@ -16,11 +16,14 @@
   },
 
   "plugins": [
-    
+    "react",
+    "flowtype"
   ],
 
   "extends": [
-    "airbnb/base"
+    "airbnb/base",
+    "plugin:react/recommended",
+    "plugin:flowtype/recommended"
   ],
 
   "settings": {
@@ -30,8 +33,9 @@
   },
 
   "rules": {
-    "global-require": 0,
-    "new-cap": 0,
+    "react/prop-types": 0,
+    "no-useless-escape": 0,
+    "class-methods-use-this": 0,
     "arrow-parens": 0,
     "no-underscore-dangle": 0,
     "max-len": [ 1, 120, 2, { "ignoreComments": true } ],
@@ -42,7 +46,7 @@
     "spaced-comment": 0,
     "default-case": 0,
     "no-param-reassign": 0,
-    "space-infix-ops": 0,
+    "space-infix-ops": 1,
     "radix": 0,
     "no-else-return": 0,
     "space-before-function-paren": 0,
@@ -66,6 +70,8 @@
 
     "import/no-unresolved": 0,
     "import/no-extraneous-dependencies": 0,
-    "import/imports-first": 1
+    "import/imports-first": 1,
+    "import/extensions": 0,
+    "import/prefer-default-export": 0
   }
 }

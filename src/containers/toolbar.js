@@ -1,8 +1,8 @@
-import { connect } from 'react-redux'
-import Menu from '../components/toolbar'
-import { logout } from '../actions/auth'
+import { connect } from 'react-redux';
+import Menu from '../components/toolbar';
+import { logout } from '../actions/auth';
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   return {
     methods: state.getIn(['questions', 'methods']),
     currentPage: state.getIn(['app', 'currentPage'])

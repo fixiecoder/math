@@ -4,7 +4,7 @@ import {
   setTableIncluded,
 } from '../actions/questions'
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   return {
     // tables: state.getIn(['questions', 'timesTables']),
     methods: state.getIn(['questions', 'methods'])

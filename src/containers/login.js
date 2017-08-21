@@ -3,7 +3,7 @@ import Login from '../components/login'
 import { attemptLogin } from '../actions/auth'
 import { setCurrentPage } from '../actions/app'
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   return {
     loading: state.getIn(['app', 'loading'])
   };

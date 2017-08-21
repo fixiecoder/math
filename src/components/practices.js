@@ -1,11 +1,9 @@
 import React from 'react';
-import { Map, List, Range } from 'immutable';
-import { Link } from 'react-router';
+import { Map } from 'immutable';
 import TablePicker from '../containers/table-picker';
 import DifficultyPicker from '../containers/difficulty-picker';
 import MethodPicker from '../containers/method-picker';
 import { PRACTICE_MENU } from '../constants/pages';
-import { tableList } from '../constants/tables';
 import { MULTIPLY, PLUS } from '../constants/methods';
 
 export default class Practices extends React.PureComponent {
@@ -48,7 +46,7 @@ export default class Practices extends React.PureComponent {
   }
   setTable(key, included) {
     const tables = this.state.tables.setIn([key, 'included'], included);
-    this.setState({ tables: tables });
+    this.setState({ tables });
   }
 
   render() {
@@ -62,9 +60,17 @@ export default class Practices extends React.PureComponent {
        <h2>Choose what you want to practice</h2>
        <DifficultyPicker />
         <MethodPicker methods={this.state.methods} setMethod={this.setMethod} />
-        <TablePicker show={this.state.methods.getIn([MULTIPLY, 'included'])} tables={this.state.tables} setTable={this.setTable} />
+        <TablePicker
+          show={this.state.methods.getIn([MULTIPLY, 'included'])}
+          tables={this.state.tables} setTable={this.setTable}
+        />
         <div className="menu-play-buttons">
-          <button onClick={this.startPractice} className={`menu-play-button ${disabledClass}`} to="/app/questions">Go</button>
+          <button
+            onClick={this.startPractice}
+            className={`menu-play-button ${disabledClass}`}
+          >
+            Go
+          </button>
         </div>
       </div>
     );

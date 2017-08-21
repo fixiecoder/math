@@ -1,0 +1,14 @@
+{
+  "params": {
+    "body": {
+      "test-value": "hello"
+    "path": {
+      "userId": "amy"
+    },
+    "querystring": {},
+    "header": {
+      "x-auth-token-key": "f57d4d56-4b34-4bed-b854-97e9ca71242d",
+      "x-auth-token-value": "29aef669-f10b-4996-8c4f-719d45a0206f-42675146-93a2-4e02-bf39-b17b0109c2f8"
+    }
+  }
+}

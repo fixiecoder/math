@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { MENU } from '../constants/pages';
 
-export default class Menu extends React.PureComponent { 
+export default class Menu extends React.PureComponent {
   componentDidMount() {
     this.props.setCurrentPage(MENU);
   }

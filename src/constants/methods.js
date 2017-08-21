@@ -17,4 +17,4 @@ export const methodSymbols = {
   DIVIDE: '/',
   PLUS: '+',
   MINUS: '-',
-}
+};

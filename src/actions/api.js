@@ -29,28 +29,20 @@ const makeRequest = (uri, method, body) => (dispatch, getState) => new Promise((
         } else {
           return response.text();
         }
+      } else {
+        throw new Error(response);
       }
     })
-    .then(responseData => {
-      resolve(responseData);
-    })
+    .then(responseData => resolve(responseData))
     .catch(e => reject(e));
 });
 
 export default {
-  get: uri => dispatch => {
-    return dispatch(makeRequest(uri, 'GET'));
-  },
+  get: uri => dispatch => dispatch(makeRequest(uri, 'GET')),
 
-  post: (uri, body) => dispatch => {
-    return dispatch(makeRequest(uri, 'POST', body));
-  },
+  del: uri => dispatch => dispatch(makeRequest(uri, 'DELETE')),
 
-  put: (uri, body) => dispatch => {
-    return dispatch(makeRequest(uri, 'PUT', body));
-  },
+  post: (uri, body) => dispatch => dispatch(makeRequest(uri, 'POST', body)),
 
-  del: (uri, body) => dispatch => {
-    return dispatch(makeRequest(uri, 'DELETE'));
-  }
-}
+  put: (uri, body) => dispatch => dispatch(makeRequest(uri, 'PUT', body)),
+};

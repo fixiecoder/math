@@ -6,7 +6,7 @@ import {
 import { setCurrentPage } from '../actions/app';
 import { initPractice } from '../actions/practice';
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   return {
     difficulty: state.getIn(['questions', 'difficulty']),
     methods: state.getIn(['questions', 'methods'])

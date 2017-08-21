@@ -1,47 +1,52 @@
 import uuid from 'uuid';
-import * as statusTypes from '../constants/question-status';
 import { browserHistory } from 'react-router';
 import { Map, List, fromJS } from 'immutable';
-import { setCurrentChallenge, setGameType } from './questions';
+import * as statusTypes from '../constants/question-status';
+import { setGameType } from './questions';
 import { CHALLENGE } from '../constants/game-types';
 import { TABLES } from '../constants/tables';
 import * as actionTypes from './types/challenge';
 import API from './api';
 
-
 function trophyIsBetterThanCurrentTrophy(newTrophy, oldTrophy) {
   if(newTrophy === 'GOLD') {
     return true;
   } else if(newTrophy === 'SILVER' && oldTrophy !== 'GOLD') {
-    return true
+    return true;
   } else if(newTrophy === 'BRONZE' && (oldTrophy !== 'GOLD' || oldTrophy !== 'SILVER')) {
-    return true
+    return true;
   } else {
     return false;
   }
 }
 
+export const uploadChallengeToHistory = (challenge) => (dispatch, getState) => {
+  const userId = getState().getIn(['user', 'id']);
+  dispatch(API.post(`/user/${userId}/history`, challenge.toJS()))
+    .then(res => console.warn(JSON.stringify(res, null, '  ')));
+};
+
 export const setChallenge = challenge => dispatch => {
-  dispatch({ type: actionTypes.SET_CHALLENGE, challenge })
+  dispatch({ type: actionTypes.SET_CHALLENGE, challenge });
 };
 
 export const setChallengeTrophy = (challengeId, trophy) => (dispatch, getState) => {
   const currentTrophy = getState().getIn(['challenges', challengeId, 'trophy']);
-  const newTrophyIsBetter = trophyIsBetterThanCurrentTrophy(trophy, currentTrophy)
+  const newTrophyIsBetter = trophyIsBetterThanCurrentTrophy(trophy, currentTrophy);
   if(newTrophyIsBetter) {
     dispatch({ type: actionTypes.SET_CHALLENGE_TROPHY, trophy, challengeId });
   }
 };
 
-export const initChallenge = (challenge) => (dispatch, getState) => {
+export const initChallenge = (challenge) => dispatch => {
   let tables = Map();
-  challenge.get('includedTables').forEach(tableKey =>
-    tables = tables.set(tableKey, TABLES.get(tableKey))
-  );
+  challenge.get('includedTables').forEach(tableKey => {
+    tables = tables.set(tableKey, TABLES.get(tableKey));
+  });
 
   let methods = Map();
   challenge.get('methods').forEach(method => {
-    methods = methods.set(method, Map({ method }))
+    methods = methods.set(method, Map({ method }));
   });
 
   const currentChallenge = Map({
@@ -66,30 +71,30 @@ export const storeUserChallenges = () => (dispatch, getState) => {
   return dispatch(API.post(`/user/${userId}/challenges`, challenges.toJS()));
 };
 
-export const getUserChallenges = (userId) => (dispatch, getState) =>
+export const getUserChallenges = (userId) => dispatch =>
   dispatch(API.get(`/user/${userId}/challenges`))
     .then(result => {
       if(result) {
-        dispatch({ type: actionTypes.SET_ALL_CHALLENGES, challenges: fromJS(result.challenges) })
+        dispatch({ type: actionTypes.SET_ALL_CHALLENGES, challenges: fromJS(result.challenges) });
       }
-    })
+    });
 
 
 export const endChallenge = () => (dispatch, getState) => {
-  const id = uuid.v4()
+  const id = uuid.v4();
   const challenge = getState().get('challenge');
   const correctAnswers = challenge.get('history')
     .filter(question => question.get('status') === statusTypes.CORRECT)
     .size;
   const percentage = (100 / challenge.get('questionCount')) * correctAnswers;
-    
+
   const updatedChallenge = challenge
     .set('endTime', Date.now())
     .set('id', id)
     .set('percentCorrect', percentage);
 
   // save challenge to challengeHistory
-  dispatch({ type: actionTypes.ADD_TO_CHALLENGE_HISTORY, id, challenge: updatedChallenge })
+  dispatch({ type: actionTypes.ADD_TO_CHALLENGE_HISTORY, id, challenge: updatedChallenge });
 
   if(percentage >= 100) {
     dispatch(setChallengeTrophy(challenge.get('challengeId'), 'GOLD'));
@@ -99,17 +104,11 @@ export const endChallenge = () => (dispatch, getState) => {
     dispatch(setChallengeTrophy(challenge.get('challengeId'), 'BRONZE'));
   }
 
-  dispatch(storeUserChallenges()),
-  dispatch(uploadChallengeToHistory(updatedChallenge)),
+  dispatch(storeUserChallenges());
+  dispatch(uploadChallengeToHistory(updatedChallenge));
 
   // upload challenge to server
 
   // show challenge result screen
   browserHistory.push('/app/completed');
-}
-
-export const uploadChallengeToHistory = (challenge) => (dispatch, getState) => {
-  const userId = getState().getIn(['user', 'id']);
-  dispatch(API.post(`/user/${userId}/history`, challenge.toJS()))
-    .then(res => console.warn(res));
 };

@@ -194,6 +194,7 @@ body {
   background-color: white;
   color: black;
   transition: background-color 1s ease, border 0.5s ease, color 1s ease;
+  flex-direction: column;
 }
 .challenges-item:hover {
   color: purple;

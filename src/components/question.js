@@ -7,9 +7,9 @@ import { PRACTICE_QUESTION, CHALLENGE_QUESTION } from '../constants/pages';
 import { PRACTICE } from '../constants/game-types';
 
 const symbolMap = {
-  'MULTIPLY': 'x',
-  'PLUS': '+',
-  'MINUS': '-',
+  MULTIPLY: 'x',
+  PLUS: '+',
+  MINUS: '-',
 };
 
 const styles = {
@@ -31,7 +31,7 @@ const styles = {
 const buttonsWrapper = {
   display: 'flex',
   justifyContent: 'center'
-}
+};
 
 const button = {
   borderRadius: 5,
@@ -40,15 +40,15 @@ const button = {
   width: 100,
   margin: 10,
   backgroundColor: 'white',
-}
+};
 
 const answerButtonStyle = Object.assign({}, button, {
   border: '4px solid green',
-})
+});
 
 const nextQuestionButtonStyle = Object.assign({}, button, {
   border: '4px solid blue',
-})
+});
 
 const wrapperStyle = {
   display: 'flex',
@@ -66,7 +66,7 @@ const speedStyle = {
   display: 'flex',
   justifyContent: 'center',
   height: 40
-}
+};
 
 export default class Question extends React.Component {
   constructor(props) {
@@ -83,7 +83,7 @@ export default class Question extends React.Component {
     this.props.setCurrentPage(screen);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if(this.props.question && this.props.question.get('questionRef') !== prevProps.question.get('questionRef')) {
       this.setState({
         answer: ''
@@ -101,15 +101,15 @@ export default class Question extends React.Component {
     const result = this.props.question.get('status') === CORRECT ? 'correctly' : 'incorrectly';
     const val1 = this.props.question.get('questionType') === TYPE2 ?
       <Input value={this.state.answer} onChange={this.answerChange} question={this.props.question} /> :
-      <span style={styles.value} >{this.props.question.get('qValue1')}</span>
+      <span style={styles.value} >{this.props.question.get('qValue1')}</span>;
 
     const val2 = this.props.question.get('questionType') === TYPE3 ?
       <Input value={this.state.answer} onChange={this.answerChange} question={this.props.question} /> :
-      <span style={styles.value} >{this.props.question.get('qValue2')}</span>
+      <span style={styles.value} >{this.props.question.get('qValue2')}</span>;
 
     const answer = this.props.question.get('questionType') === TYPE1 ?
       <Input value={this.state.answer} onChange={this.answerChange} question={this.props.question} /> :
-      <span style={styles.value} >{this.props.question.get('answer')}</span>
+      <span style={styles.value} >{this.props.question.get('answer')}</span>;
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -164,8 +164,11 @@ export default class Question extends React.Component {
           </button>
         </div>
         <div style={speedStyle}>{
-            this.props.question.get('status') !== UNANSWERED ?
-              (<span>You answered in {result} {(this.props.question.get('duration') / 1000).toFixed(1)} seconds  </span>) : null
+            this.props.question.get('status') !== UNANSWERED ? (
+               <span>
+                You answered in {result} {(this.props.question.get('duration') / 1000).toFixed(1)} seconds
+              </span>
+            ) : null
           }</div>
         <Stats />
       </div>

@@ -56,7 +56,7 @@ export default class Login extends React.PureComponent {
 
   render() {
     if(this.props.loading) {
-      return <Loading />
+      return <Loading />;
     }
     return (
       <div style={loginWrapperStyle}>

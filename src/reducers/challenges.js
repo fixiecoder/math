@@ -56,7 +56,7 @@ const initialState = Map({
     difficulty: 'EASY',
     history: List(),
     trophy: null,
-  }), 
+  }),
   '7-times-table-easy': Map({
     order: 5,
     questionCount: 10,

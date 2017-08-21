@@ -1,4 +1,4 @@
-import { Map, List, Range } from 'immutable';
+import { Map, Range } from 'immutable';
 import * as actionTypes from '../actions/types/practice';
 
 const initialState = Map();
@@ -8,9 +8,7 @@ function removeFactor(state, action) {
   if(action.table === 'zero' || !action.table) {
     return state;
   }
-  factorList = factorList.filter(factor => {
-    return factor !== action.factor
-  });
+  factorList = factorList.filter(factor => factor !== action.factor);
 
   const newState = state.setIn(['includedTables', action.table, 'factors', action.factorType], factorList);
   return newState;

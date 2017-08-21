@@ -1,6 +1,7 @@
 import React from 'react';
-import DifficultyPicker from '../containers/difficulty-picker';
+import Trophy from 'react-icons/lib/fa/trophy';
 import { CHALLENGE_MENU } from '../constants/pages';
+import { fSwitch } from '../libs/utils';
 
 export default class Challenges extends React.PureComponent {
   componentDidMount() {
@@ -12,17 +13,24 @@ export default class Challenges extends React.PureComponent {
       .toList()
       .sort((a, b) => (a.get('order') - b.get('order')))
       .map(challenge => {
-      return (
-        <div
-          key={challenge.get('challengeId')}
-          className="challenges-item"
-          onClick={() => this.props.initChallenge(challenge)}
-        >
-          <span>{challenge.get('name')}</span>
-          <span className="challenge-trophy">{challenge.get('trophy')}</span>
-        </div>
-      );
-    });
+        const trophyColor = fSwitch(challenge.trophy)
+          .case('GOLD', 'gold')
+          .case('SILVER', 'silver')
+          .case('BRONZE', 'brown')
+          .default('#ededed')
+          .value();
+
+        return (
+          <div
+            key={challenge.get('challengeId')}
+            className="challenges-item"
+            onClick={() => this.props.initChallenge(challenge)}
+          >
+            <span>{challenge.get('name')}</span>
+            <Trophy fill={trophyColor} size={50} />
+          </div>
+        );
+      });
 
 
     return (

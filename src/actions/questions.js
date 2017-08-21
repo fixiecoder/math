@@ -1,5 +1,4 @@
 import uuid from 'uuid';
-import { browserHistory } from 'react-router';
 import { Map } from 'immutable';
 import {
   getRandomNumberBetween,
@@ -13,7 +12,6 @@ import {
   MINUS,
   DIVIDE
 } from '../constants/methods';
-import { tableMap } from '../constants/tables';
 import * as statusTypes from '../constants/question-status';
 import {
   TYPE1,
@@ -24,9 +22,9 @@ import { REMOVE_PRACTICE_FACTOR, RESET_PRACTICE_FACTOR } from './types/practice'
 import { REMOVE_CHALLENGE_FACTOR, RESET_CHALLENGE_FACTOR } from './types/challenge';
 import * as difficulties from '../constants/difficulty-types';
 import { PRACTICE, CHALLENGE } from '../constants/game-types';
-import { setChallengeTrophy, storeUserChallenges, endChallenge } from './challenges';
+import { endChallenge } from './challenges';
 
-export const generateQuestion = (method) => (dispatch, getState) => {
+export const generateQuestion = () => (dispatch, getState) => {
   const gameType = getState().getIn(['questions', 'gameType']);
   const isPractice = gameType === PRACTICE;
   const reducer = isPractice === true ? 'practice' : 'challenge';
@@ -52,7 +50,7 @@ export const generateQuestion = (method) => (dispatch, getState) => {
   }
 
   let refreshTable = false;
-  let resetFactorActonType = isPractice ? RESET_PRACTICE_FACTOR : RESET_CHALLENGE_FACTOR;
+  const resetFactorActonType = isPractice ? RESET_PRACTICE_FACTOR : RESET_CHALLENGE_FACTOR;
 
   if(table) {
     if(table.getIn(['factors', 'qV2']).size === 0) {
@@ -78,24 +76,28 @@ export const generateQuestion = (method) => (dispatch, getState) => {
   if(Math.random() > 0.5) {
     customType = [TYPE1, TYPE3][getRandomNumberBetween(0, 1)];
     const val2Index = table ? getRandomNumberBetween(0, table.getIn(['factors', 'qV2']).size - 1) : 0;
-    qValue1 = method === MULTIPLY ? table.get('value') : getRandomNumberBetween(0, addSubractRangeLimit);
-    qValue2 = method === MULTIPLY ? table.getIn(['factors', 'qV2', val2Index]) : getRandomNumberBetween(0, addSubractRangeLimit);
+    qValue1 = method === MULTIPLY ?
+      table.get('value') : getRandomNumberBetween(0, addSubractRangeLimit);
+    qValue2 = method === MULTIPLY ?
+      table.getIn(['factors', 'qV2', val2Index]) : getRandomNumberBetween(0, addSubractRangeLimit);
     factor = qValue2;
     factorType = 'qV2';
   } else {
     customType = [TYPE1, TYPE2][getRandomNumberBetween(0, 1)];
     const val1Index = table ? getRandomNumberBetween(0, table.getIn(['factors', 'qV1']).size - 1) : 0;
-    qValue1 = method === MULTIPLY ? table.getIn(['factors', 'qV1', val1Index]) : getRandomNumberBetween(0, addSubractRangeLimit);
-    qValue2 = method === MULTIPLY ? table.get('value') : getRandomNumberBetween(0, addSubractRangeLimit);
+    qValue1 = method === MULTIPLY ?
+      table.getIn(['factors', 'qV1', val1Index]) : getRandomNumberBetween(0, addSubractRangeLimit);
+    qValue2 = method === MULTIPLY ?
+      table.get('value') : getRandomNumberBetween(0, addSubractRangeLimit);
     factor = qValue1;
     factorType = 'qV1';
   }
 
   if(method === MULTIPLY) {
-    const removeFactorActionType = isPractice  === true ? REMOVE_PRACTICE_FACTOR : REMOVE_CHALLENGE_FACTOR;
+    const removeFactorActionType = isPractice === true ? REMOVE_PRACTICE_FACTOR : REMOVE_CHALLENGE_FACTOR;
     dispatch({ type: removeFactorActionType, table: table.get('key'), factor, factorType });
   }
-  
+
   let answer;
   switch(method) {
     case MULTIPLY:
@@ -120,7 +122,7 @@ export const generateQuestion = (method) => (dispatch, getState) => {
       break;
   }
 
-  let question = Map({
+  const question = Map({
     questionRef: uuid.v4(),
     qValue1,
     qValue2,
@@ -132,7 +134,7 @@ export const generateQuestion = (method) => (dispatch, getState) => {
   });
 
   dispatch({ type: actionTypes.SET_CURRENT_QUESTION, question });
-}
+};
 
 export const checkQuestionIsUnique = quesion => (dispatch, getState) => {
 
@@ -146,6 +148,7 @@ export const checkAnswer = (question, answer) => dispatch => {
 export const answerQuestion = (question, answer) => (dispatch, getState) => {
   let status;
   answer = Number(answer);
+  const gameType = getState().getIn(['questions', 'gameType']);
   const isPractice = gameType === PRACTICE;
   const reducer = isPractice === true ? 'practice' : 'challenge';
   const currentQuestion = getState().getIn([reducer, 'currentQuestion']);
@@ -178,13 +181,11 @@ export const answerQuestion = (question, answer) => (dispatch, getState) => {
   question = question.set('message', message);
 
   dispatch({ type: actionTypes.SET_CURRENT_QUESTION, question });
-  
-  const gameType = getState().getIn(['questions', 'gameType']);
 
   if(gameType === CHALLENGE) {
     dispatch({ type: actionTypes.ADD_QUESTION_TO_CHALLENGE, question, gameType });
     if(currentQuestion === questionCount) {
-      return dispatch(endChallenge())
+      dispatch(endChallenge());
     }
   } else {
     dispatch({ type: actionTypes.ADD_QUESTION_TO_HISTORY, question, gameType });
@@ -210,8 +211,8 @@ export function resetQuestionHistoryByType(gameType) {
 
 export const setCurrentChallenge = (currentChallenge) => (dispatch, getState) => {
   dispatch({ type: actionTypes.SET_CURRENT_CHALLENGE, currentChallenge });
-}
+};
 
 export const setGameType = (gameType) => (dispatch, getState) => {
   dispatch({ type: actionTypes.SET_GAME_TYPE, gameType });
-}
+};
