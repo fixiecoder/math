@@ -11,7 +11,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => {
+function mapDispatchToProps(dispatch) {
   return {
     setTableIncluded: (table, include) => dispatch(setTableIncluded(table, include))
   };

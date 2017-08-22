@@ -13,7 +13,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => {
+function mapDispatchToProps(dispatch) {
   return {
     generateQuestion: () => dispatch(generateQuestion()),
     answerQuestion: (question, answer) => dispatch(answerQuestion(question, answer)),

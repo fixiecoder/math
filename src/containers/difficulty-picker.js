@@ -10,10 +10,10 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => {
+function mapDispatchToProps(dispatch) {
   return {
     setDifficulty: (difficulty) => dispatch(setDifficulty(difficulty))
   };
-};
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(DifficultyPicker);

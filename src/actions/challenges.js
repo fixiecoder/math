@@ -20,6 +20,12 @@ function trophyIsBetterThanCurrentTrophy(newTrophy, oldTrophy) {
   }
 }
 
+export const getChallengeHistory = (lastDateCreated = 0) => (dispatch, getState) => {
+  const userId = getState().getIn(['user', 'id']);
+  return dispatch(API.get(`/user/${userId}/history?datecreated=${lastDateCreated}`))
+    .then(result => console.log(result));
+};
+
 export const uploadChallengeToHistory = (challenge) => (dispatch, getState) => {
   const userId = getState().getIn(['user', 'id']);
   dispatch(API.post(`/user/${userId}/history`, challenge.toJS()))
@@ -71,14 +77,15 @@ export const storeUserChallenges = () => (dispatch, getState) => {
   return dispatch(API.post(`/user/${userId}/challenges`, challenges.toJS()));
 };
 
-export const getUserChallenges = (userId) => dispatch =>
+export const getUserChallenges = () => (dispatch, getState) => {
+  const userId = getState().getIn(['user', 'id']);
   dispatch(API.get(`/user/${userId}/challenges`))
     .then(result => {
       if(result) {
         dispatch({ type: actionTypes.SET_ALL_CHALLENGES, challenges: fromJS(result.challenges) });
       }
     });
-
+};
 
 export const endChallenge = () => (dispatch, getState) => {
   const id = uuid.v4();

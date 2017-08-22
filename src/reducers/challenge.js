@@ -1,7 +1,9 @@
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import * as actionTypes from '../actions/types/challenge';
 
-const initialState = Map();
+const initialState = Map({
+  history: List()
+});
 
 export default function challenges(state = initialState, action) {
   switch(action.type) {

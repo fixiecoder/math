@@ -14,7 +14,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => {
+function mapDispatchToProps(dispatch) {
   return {
     resetQuestionHistoryByType: (gameType) => dispatch(resetQuestionHistoryByType(gameType)),
   };

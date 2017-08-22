@@ -10,7 +10,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => {
+function mapDispatchToProps(dispatch) {
   return {
     setMethodIncluded: (method, include) => dispatch(setMethodIncluded(method, include))
   };

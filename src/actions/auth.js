@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 import * as actionTypes from './types/auth';
 import { setLoading } from './app';
 import API from './api';
-import { getUserChallenges } from './challenges';
+import { getUserChallenges, getChallengeHistory } from './challenges';
 
 export function setAuthTokens(authTokens) {
   return { type: actionTypes.SET_AUTH_TOKENS, authTokens };
@@ -23,7 +23,8 @@ export const attemptLogin = (credentials) => dispatch => {
       return dispatch(getUser(credentials.username));
     })
     .then(() => Promise.all([
-      dispatch(getUserChallenges(credentials.username))
+      dispatch(getUserChallenges()),
+      dispatch(getChallengeHistory()),
     ]))
     .then(() => {
       dispatch(setLoading(false));

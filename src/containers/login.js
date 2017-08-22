@@ -9,7 +9,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => {
+function mapDispatchToProps(dispatch) {
   return {
     attemptLogin: (username, password) => dispatch(attemptLogin(username, password)),
     setCurrentPage: (page) => dispatch(setCurrentPage(page)),

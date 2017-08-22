@@ -8,10 +8,10 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => {
+function mapDispatchToProps(dispatch) {
   return {
     setCurrentPage: (page) => dispatch(setCurrentPage(page)),
   };
-};
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompletedChallenge);
