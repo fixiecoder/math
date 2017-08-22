@@ -9,6 +9,8 @@ import {
   CHALLENGE_QUESTION,
   COMPLETED_CHALLENGE,
 } from '../constants/pages';
+import BackIcon from 'react-icons/lib/fa/arrow-circle-left';
+import CloseIcon from 'react-icons/lib/fa/close';
 
 export default function Toolbar(props) {
   let questionMenuItems;
@@ -18,7 +20,7 @@ export default function Toolbar(props) {
     case PRACTICE_MENU:
       questionMenuItems = (
         <div>
-          <Link to="/app/menu">back to main menu</Link>
+          <Link to="/app/menu"><BackIcon size={50} fill={'green'} /></Link>
         </div>
       );
       break;
@@ -26,7 +28,7 @@ export default function Toolbar(props) {
     case PRACTICE_QUESTION:
       questionMenuItems = (
         <div>
-          <Link to="/app/practice">back to practice menu</Link>
+          <Link to="/app/practice"><BackIcon size={50} fill={'green'} /></Link>
         </div>
       );
       break;
@@ -35,7 +37,7 @@ export default function Toolbar(props) {
     case CHALLENGE_QUESTION:
       questionMenuItems = (
         <div>
-          <Link to="/app/challenge">back to challenge menu</Link>
+          <Link to="/app/challenge"><BackIcon size={50} fill={'green'} /></Link>
         </div>
       );
       break;
@@ -49,8 +51,9 @@ export default function Toolbar(props) {
       <img className="main-toolbar-title" src={titleWhiteImage} alt="" />
       <div className="main-toolbar-spacer"></div>
       {questionMenuItems}
-      <Trophy size={40} className="testme" />
-      <button className="main-toolbar-logout-button" onClick={props.logout}>Log out</button>
+      <button className="main-toolbar-logout-button" onClick={props.logout}>
+        <CloseIcon size={50} fill={'red'} />
+      </button>
     </div>
   );
 }

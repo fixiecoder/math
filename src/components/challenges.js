@@ -13,7 +13,7 @@ export default class Challenges extends React.PureComponent {
       .toList()
       .sort((a, b) => (a.get('order') - b.get('order')))
       .map(challenge => {
-        const trophyColor = fSwitch(challenge.trophy)
+        const trophyColor = fSwitch(challenge.get('trophy'))
           .case('GOLD', 'gold')
           .case('SILVER', 'silver')
           .case('BRONZE', 'brown')

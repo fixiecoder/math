@@ -3,7 +3,8 @@ import { CORRECT, INCORRECT } from '../constants/question-status';
 
 const statsWrapperStyle = {
   display: 'flex',
-  width: 500,
+  maxWidth: 500,
+  width: '100%',
   margin: 'auto'
 };
 

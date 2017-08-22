@@ -24,6 +24,10 @@ import * as difficulties from '../constants/difficulty-types';
 import { PRACTICE, CHALLENGE } from '../constants/game-types';
 import { endChallenge } from './challenges';
 
+export const setChallengeHistory = (challengeHistory) => {
+  return { type: actionTypes.SET_CHALLENGE_HISTORY, challengeHistory };
+};
+
 export const generateQuestion = () => (dispatch, getState) => {
   const gameType = getState().getIn(['questions', 'gameType']);
   const isPractice = gameType === PRACTICE;

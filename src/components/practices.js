@@ -4,7 +4,7 @@ import TablePicker from '../containers/table-picker';
 import DifficultyPicker from '../containers/difficulty-picker';
 import MethodPicker from '../containers/method-picker';
 import { PRACTICE_MENU } from '../constants/pages';
-import { MULTIPLY, PLUS } from '../constants/methods';
+import { MULTIPLY, PLUS, MINUS } from '../constants/methods';
 
 export default class Practices extends React.PureComponent {
   constructor(props) {
@@ -16,6 +16,7 @@ export default class Practices extends React.PureComponent {
       methods: Map({
         MULTIPLY: Map({ included: false, method: MULTIPLY }),
         PLUS: Map({ included: false, method: PLUS }),
+        MINUS: Map({ included: false, method: MINUS }),
       }),
       tables: Map({
         one: Map({ included: false, value: 1, key: 'one' }),
@@ -50,14 +51,14 @@ export default class Practices extends React.PureComponent {
   }
 
   render() {
-    const disable = !this.props.methods.reduce((res, method) =>
+    const disable = !this.state.methods.reduce((res, method) =>
       res || method.get('included'), false
     );
 
     const disabledClass = disable ? 'disabled' : '';
     return (
-      <div>
-       <h2>Choose what you want to practice</h2>
+      <div className="practice-menu-wrapper">
+       <h2 className="practice-menu-heading">Choose what you want to practice</h2>
        <DifficultyPicker />
         <MethodPicker methods={this.state.methods} setMethod={this.setMethod} />
         <TablePicker
@@ -66,10 +67,11 @@ export default class Practices extends React.PureComponent {
         />
         <div className="menu-play-buttons">
           <button
+            disabled={disable}
             onClick={this.startPractice}
             className={`menu-play-button ${disabledClass}`}
           >
-            Go
+            START
           </button>
         </div>
       </div>

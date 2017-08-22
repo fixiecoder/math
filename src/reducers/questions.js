@@ -50,14 +50,17 @@ function removeFactor(state, action) {
 export default function questions(state = initialState, action) {
   switch(action.type) {
 
+    case actionTypes.SET_CHALLENGE_HISTORY:
+      return state.set('challengeHistory', action.challengeHistory);
+
     case actionTypes.ADD_TO_CHALLENGE_HISTORY:
-      return state.setIn(['challengeHistory', action.id], action.challenge);
+      return state.updateIn(['challengeHistory'], (history) => history.push(action.challenge));
 
-    case actionTypes.SET_CURRENT_CHALLENGE:
-      return state.set('currentChallenge', action.currentChallenge);
+    // case actionTypes.SET_CURRENT_CHALLENGE:
+    //   return state.set('currentChallenge', action.currentChallenge);
 
-    case actionTypes.RESET_QUESTION_HISTORY:
-      return state.set(gameTypeMap[action.gameType], List());
+    // case actionTypes.RESET_QUESTION_HISTORY:
+    //   return state.set(gameTypeMap[action.gameType], List());
 
     // case actionTypes.ADD_QUESTION_TO_HISTORY:
     //   return state.updateIn([gameTypeMap[action.gameType]], questions => questions.push(action.question))
@@ -65,23 +68,23 @@ export default function questions(state = initialState, action) {
     // case actionTypes.ADD_QUESTION_TO_CHALLENGE:
     //   return state.updateIn(['callenge', 'questions'], history => history.push(action.question))
 
-    case actionTypes.SET_INCLUDED_TABLE:
-      return state.setIn(['timesTables', action.table, 'included'], action.included);
+    // case actionTypes.SET_INCLUDED_TABLE:
+    //   return state.setIn(['timesTables', action.table, 'included'], action.included);
 
-    case actionTypes.SET_INCLUDED_METHOD:
-      return state.setIn(['methods', action.method, 'included'], action.included);
+    // case actionTypes.SET_INCLUDED_METHOD:
+    //   return state.setIn(['methods', action.method, 'included'], action.included);
 
-    case actionTypes.RESET_FACTOR:
-      return state.setIn(['timesTables', action.table, 'factors', action.factorType], Range(0, 11).toList());
+    // case actionTypes.RESET_FACTOR:
+    //   return state.setIn(['timesTables', action.table, 'factors', action.factorType], Range(0, 11).toList());
 
-    case actionTypes.REMOVE_FACTOR:
-      return removeFactor(state, action);
+    // case actionTypes.REMOVE_FACTOR:
+    //   return removeFactor(state, action);
 
     case actionTypes.SET_CURRENT_QUESTION:
       return state.set('current', action.question);
 
-    case actionTypes.SET_DIFFICULTY:
-      return state.set('difficulty', action.difficulty);
+    // case actionTypes.SET_DIFFICULTY:
+    //   return state.set('difficulty', action.difficulty);
 
     case actionTypes.SET_GAME_TYPE:
       return state.set('gameType', action.gameType);

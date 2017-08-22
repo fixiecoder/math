@@ -1,10 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import { MENU } from '../constants/pages';
 
 export default class Menu extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.goTo = this.goTo.bind(this);
+  }
+
   componentDidMount() {
     this.props.setCurrentPage(MENU);
+  }
+
+  goTo(path) {
+    browserHistory.push(path);
   }
 
   render() {
@@ -15,10 +24,10 @@ export default class Menu extends React.PureComponent {
     const disabledClass = disable ? 'disabled' : '';
 
     return (
-      <div>
+      <div className="menu-play-buttons-wrapper">
         <div className="menu-play-buttons">
-          <Link className={`menu-play-button ${disabledClass}`} to="/app/practice">Practice</Link>
-          <Link className={`menu-play-button ${disabledClass}`} to="/app/challenge">Challenge</Link>
+          <button className="menu-play-button" onClick={() => this.goTo('/app/practice')}>Practice</button>
+          <button className="menu-play-button" onClick={() => this.goTo('/app/challenge')}>Challenge</button>
         </div>
       </div>
     );

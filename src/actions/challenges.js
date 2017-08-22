@@ -2,7 +2,7 @@ import uuid from 'uuid';
 import { browserHistory } from 'react-router';
 import { Map, List, fromJS } from 'immutable';
 import * as statusTypes from '../constants/question-status';
-import { setGameType } from './questions';
+import { setGameType, setChallengeHistory } from './questions';
 import { CHALLENGE } from '../constants/game-types';
 import { TABLES } from '../constants/tables';
 import * as actionTypes from './types/challenge';
@@ -23,7 +23,7 @@ function trophyIsBetterThanCurrentTrophy(newTrophy, oldTrophy) {
 export const getChallengeHistory = (lastDateCreated = 0) => (dispatch, getState) => {
   const userId = getState().getIn(['user', 'id']);
   return dispatch(API.get(`/user/${userId}/history?datecreated=${lastDateCreated}`))
-    .then(result => console.log(result));
+    .then(result => dispatch(setChallengeHistory(fromJS(result))));
 };
 
 export const uploadChallengeToHistory = (challenge) => (dispatch, getState) => {
@@ -37,6 +37,7 @@ export const setChallenge = challenge => dispatch => {
 };
 
 export const setChallengeTrophy = (challengeId, trophy) => (dispatch, getState) => {
+  console.log(trophy)
   const currentTrophy = getState().getIn(['challenges', challengeId, 'trophy']);
   const newTrophyIsBetter = trophyIsBetterThanCurrentTrophy(trophy, currentTrophy);
   if(newTrophyIsBetter) {

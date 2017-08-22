@@ -6,7 +6,9 @@ export default function DifficultyPicker(props) {
   const wrapper = {
     display: 'flex',
     width: '100%',
-    justifyContent: 'center'
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   };
 
   const inner = {
@@ -38,6 +40,7 @@ export default function DifficultyPicker(props) {
 
   return (
     <div style={wrapper}>
+      <h3 className="difficulty-heading">How hard do you want it to be?</h3>
       <div style={inner}>
         <label style={props.difficulty === difficulties.EASY ? selected : unselected} className="difficulty-button">
           <span>EASY</span>
