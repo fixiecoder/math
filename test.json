@@ -2,6 +2,7 @@
   "params": {
     "body": {
       "test-value": "hello"
+    },
     "path": {
       "userId": "amy"
     },
