@@ -1,8 +1,8 @@
-import { connect } from 'react-redux'
-import MethodPicker from '../components/method-picker'
+import { connect } from 'react-redux';
+import MethodPicker from '../components/method-picker';
 import {
   setMethodIncluded,
-} from '../actions/questions'
+} from '../actions/questions';
 
 function mapStateToProps(state) {
   return {

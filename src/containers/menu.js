@@ -1,5 +1,5 @@
-import { connect } from 'react-redux'
-import Menu from '../components/menu'
+import { connect } from 'react-redux';
+import Menu from '../components/menu';
 import { setCurrentPage } from '../actions/app';
 
 function mapStateToProps(state) {

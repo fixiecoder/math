@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
 import './index.css';
 import App from './containers/app';
 import registerServiceWorker from './registerServiceWorker';
-import { Router, Route, browserHistory, IndexRedirect } from 'react-router'
 import Question from './containers/question';
 import Login from './containers/login';
 import Menu from './containers/menu';

@@ -1,8 +1,8 @@
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import Practices from '../components/practices';
 import {
   setDifficulty,
-} from '../actions/questions'
+} from '../actions/questions';
 import { setCurrentPage } from '../actions/app';
 import { initPractice } from '../actions/practice';
 

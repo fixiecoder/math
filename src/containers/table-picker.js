@@ -1,8 +1,8 @@
-import { connect } from 'react-redux'
-import TablePicker from '../components/table-picker'
+import { connect } from 'react-redux';
+import TablePicker from '../components/table-picker';
 import {
   setTableIncluded,
-} from '../actions/questions'
+} from '../actions/questions';
 
 function mapStateToProps(state) {
   return {

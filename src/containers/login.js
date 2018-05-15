@@ -1,7 +1,7 @@
-import { connect } from 'react-redux'
-import Login from '../components/login'
-import { attemptLogin } from '../actions/auth'
-import { setCurrentPage } from '../actions/app'
+import { connect } from 'react-redux';
+import Login from '../components/login';
+import { attemptLogin } from '../actions/auth';
+import { setCurrentPage } from '../actions/app';
 
 function mapStateToProps(state) {
   return {

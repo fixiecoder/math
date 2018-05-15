@@ -37,7 +37,6 @@ export const setChallenge = challenge => dispatch => {
 };
 
 export const setChallengeTrophy = (challengeId, trophy) => (dispatch, getState) => {
-  console.log(trophy)
   const currentTrophy = getState().getIn(['challenges', challengeId, 'trophy']);
   const newTrophyIsBetter = trophyIsBetterThanCurrentTrophy(trophy, currentTrophy);
   if(newTrophyIsBetter) {

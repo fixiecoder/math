@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
-import { createStore, applyMiddleware, compose } from 'redux'
-import reducers from './reducers';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import reducers from './reducers';
 import persistMiddleware from './middleware/persist';
 
 let state = localStorage.getItem('state');

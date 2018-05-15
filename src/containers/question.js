@@ -1,6 +1,6 @@
-import { setCurrentPage } from '../actions/app'
-import { connect } from 'react-redux'
-import Question from '../components/question'
+import { connect } from 'react-redux';
+import { setCurrentPage } from '../actions/app';
+import Question from '../components/question';
 import {
   generateQuestion,
   answerQuestion,

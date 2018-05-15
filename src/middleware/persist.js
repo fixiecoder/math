@@ -10,4 +10,4 @@ export default store => next => action => {
 
       localStorage.setItem('state', JSON.stringify(store.getState().toJS()));
   }
-}
+};

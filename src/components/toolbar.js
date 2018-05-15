@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Trophy from 'react-icons/lib/fa/trophy';
+import BackIcon from 'react-icons/lib/fa/arrow-circle-left';
+import CloseIcon from 'react-icons/lib/fa/close';
 import titleWhiteImage from '../assets/title_white.svg';
 import {
   PRACTICE_MENU,
@@ -9,8 +11,6 @@ import {
   CHALLENGE_QUESTION,
   COMPLETED_CHALLENGE,
 } from '../constants/pages';
-import BackIcon from 'react-icons/lib/fa/arrow-circle-left';
-import CloseIcon from 'react-icons/lib/fa/close';
 
 export default function Toolbar(props) {
   let questionMenuItems;
